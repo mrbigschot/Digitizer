@@ -74,7 +74,6 @@ table#data {
     cursor: cell;
     margin-bottom: 10px;
     margin-top: 10px;
-    /*margin: 10px 10px 0px;*/
     text-align: center;
 }
 table#data td {
@@ -96,6 +95,7 @@ table#data th {
 ul.menu {
     list-style-type: none;
     font-family: geneva, arial, sans-serif;
+    font-size: 10px;
     display: inline;
     padding: 0 20px 2px;
     margin: 0;
@@ -129,6 +129,7 @@ ul.menu li:hover {
 ul.mode {
     list-style-type: none;
     font-family: geneva, arial, sans-serif;
+    font-size: 10px;
     display: inline;
     padding: 0 20px 2px;
     margin: 0;
@@ -136,7 +137,6 @@ ul.mode {
     position: relative;
 }
 ul.mode li {	
-    font-family: geneva;
     display: inline-block;
     background-color: #000000;
     color: #e1e1e1;
