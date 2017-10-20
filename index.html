@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Digitizer</title>
+        <link rel="stylesheet" href="styles.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" 
+              type="image/png" 
+              href="./images/logo.png">
+    </head>
+    <body>
+        <div>
+            <h1>DIGITIZER</h1>
+            <ul class="menu">
+                <li id="start" onclick="menu('start')">START</li>
+                <li id="barbell" onclick="menu('barbell')">BARBELL</li>
+                <li id="lift" onclick="menu('lift')">LIFT</li>
+                <li id="sts" onclick="menu('sts')">STS</li>
+            </ul>
+            <ul class="mode">
+                <li id="T" onclick="mode('T')">TALL</li>
+                <li id="S" onclick="mode('S')">SHORT</li>
+            </ul>
+            <ul class="menu">
+                <li id="balltoss" onclick="menu('balltoss')">BALL TOSS</li>
+                <li id="jardn" onclick="menu('jardn')">JAR DN</li>
+                <li id="jarup" onclick="menu('jarup')">JAR UP</li>
+                <li id="jumpout" onclick="menu('jumpout')">JUMP OUT</li>
+                <li id="jumpup" onclick="menu('jumpup')">JUMP UP</li>
+                <li id="obs" onclick="menu('obs')">OBSTACLE</li>
+            </ul>
+        </div>
+        <hr>
+        <div class="picbox">
+            <img id="img" src="" alt="Something went wrong!" onerror="defImage()" width="500" height="500"> 
+            <!--814, 457-->
+        </div>
+        <div class="info">
+            <p class="prompt" id="prompt">Last click: ( , )</p>
+            <button id="nxtbtn" type="button">NEXT IMAGE</button>
+            <button id="prvbtn" type="button">PREVIOUS IMAGE</button>
+            <table id="data" width="100%">
+            </table>
+            <p>Click on the image to store a data point, then click on a pair of cells in the table to record.</p>
+        </div>
+        <script src="./js/digitizerScript.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
+    </body>
+</html>
