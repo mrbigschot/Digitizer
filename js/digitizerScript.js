@@ -51,7 +51,7 @@ function imgClick(evt) {
     $(document).ready(function () {
         $("img").on("click", function (evt) {
             lastClick[0] = evt.pageX - this.offsetLeft;
-            lastClick[1] = $("img").height() - (evt.pageY - this.offsetTop);
+            lastClick[1] = $("img").height() - (evt.pageY - $("img").offset().top);
             document.getElementById("prompt").innerHTML = "Last click: (" +
                     lastClick[0] + ", " + lastClick[1] + ")";
         });
