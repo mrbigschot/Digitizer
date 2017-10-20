@@ -56,7 +56,6 @@ table#layout td {
 }
 table#layout td#image {
     vertical-align: top;
-    max-width: 400px;
     padding-left: 5px;
     padding-right: 5px;
 }
