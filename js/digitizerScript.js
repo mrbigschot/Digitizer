@@ -49,9 +49,9 @@ function setupTable() {
 
 function imgClick(evt) {
     $(document).ready(function () {
-        $("img").on("click", function (event) {
-            lastClick[0] = event.pageX - this.offsetLeft;
-            lastClick[1] = $("img").height() - (event.pageY - this.offsetTop);
+        $("img").on("click", function (evt) {
+            lastClick[0] = evt.pageX - this.offsetLeft;
+            lastClick[1] = $("img").height() - (evt.pageY - this.offsetTop);
             document.getElementById("prompt").innerHTML = "Last click: (" +
                     lastClick[0] + ", " + lastClick[1] + ")";
         });
@@ -219,8 +219,8 @@ function menu(s) {
             nSlides = 1;
             headers = ["LTOE", "RTOE", "LANK", "RANK", "LKNE", "RKNE", "LHIP",
                 "RHIP", "LSHL", "RSHL", "LELB", "RELB", "LWRI", "RWRI", "EAR"];
-            w = 456;
-            h = 534;
+            w = 290;
+            h = 356;
             break;
         case "barbell":
             flag = true;
