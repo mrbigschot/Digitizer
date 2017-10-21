@@ -4,8 +4,7 @@ var headers = [];
 var lastClick = [];
 var project = "";
 var image = "";
-var w;
-var h;
+var w, h;
 var table = document.getElementById("data");
 var type = "T";
 var sel;
@@ -62,8 +61,10 @@ function nxtbtnClick() {
     if (slide < nSlides) {
         slide++;
         changeImage();
-        table.rows[slide].cells[0].style.backgroundColor = "#e1e1e1";
-        table.rows[slide + 1].cells[0].style.backgroundColor = "#ffffff";
+        if (!flag) {
+            table.rows[slide].cells[0].style.backgroundColor = "#e1e1e1";
+            table.rows[slide + 1].cells[0].style.backgroundColor = "#ffffff";
+        }
     }
 }
 
@@ -71,8 +72,10 @@ function prvbtnClick() {
     if (slide > 1) {
         slide--;
         changeImage();
-        table.rows[slide + 2].cells[0].style.backgroundColor = "#e1e1e1";
-        table.rows[slide + 1].cells[0].style.backgroundColor = "#ffffff";
+        if (!flag) {
+            table.rows[slide + 2].cells[0].style.backgroundColor = "#e1e1e1";
+            table.rows[slide + 1].cells[0].style.backgroundColor = "#ffffff";
+        }
     }
 }
 
@@ -91,13 +94,27 @@ function tableClick(tableCell) {
     var loc = tableCell.id.split('-');
     var row = parseInt(loc[0]);
     var col = parseInt(loc[1]);
-    if (row === slide && lastClick[0] && lastClick[1]) {
-        if (col % 2 !== 0) {
-            table.rows[row + 1].cells[col].innerHTML = lastClick[0];
-            table.rows[row + 1].cells[col + 1].innerHTML = lastClick[1];
+    if (lastClick[0] && lastClick[1]) {
+        if (flag) {
+            if (Math.ceil(col / 2) === slide) {
+                if (col % 2 !== 0) {
+                    table.rows[row + 1].cells[col].innerHTML = lastClick[0];
+                    table.rows[row + 1].cells[col + 1].innerHTML = lastClick[1];
+                } else {
+                    table.rows[row + 1].cells[col - 1].innerHTML = lastClick[0];
+                    table.rows[row + 1].cells[col].innerHTML = lastClick[1];
+                }
+            }
         } else {
-            table.rows[row + 1].cells[col - 1].innerHTML = lastClick[0];
-            table.rows[row + 1].cells[col].innerHTML = lastClick[1];
+            if (row === slide) {
+                if (col % 2 !== 0) {
+                    table.rows[row + 1].cells[col].innerHTML = lastClick[0];
+                    table.rows[row + 1].cells[col + 1].innerHTML = lastClick[1];
+                } else {
+                    table.rows[row + 1].cells[col - 1].innerHTML = lastClick[0];
+                    table.rows[row + 1].cells[col].innerHTML = lastClick[1];
+                }
+            }
         }
     }
 }
@@ -106,13 +123,23 @@ function tableHover(cell) {
     var loc = cell.id.split('-');
     var row = parseInt(loc[0]);
     var col = parseInt(loc[1]);
-    if (row === slide) {
+    if (flag) {
         if (col % 2 !== 0) {
             table.rows[row + 1].cells[col].style.backgroundColor = 'white';
             table.rows[row + 1].cells[col + 1].style.backgroundColor = 'white';
         } else {
             table.rows[row + 1].cells[col - 1].style.backgroundColor = 'white';
             table.rows[row + 1].cells[col].style.backgroundColor = 'white';
+        }
+    } else {
+        if (row === slide) {
+            if (col % 2 !== 0) {
+                table.rows[row + 1].cells[col].style.backgroundColor = 'white';
+                table.rows[row + 1].cells[col + 1].style.backgroundColor = 'white';
+            } else {
+                table.rows[row + 1].cells[col - 1].style.backgroundColor = 'white';
+                table.rows[row + 1].cells[col].style.backgroundColor = 'white';
+            }
         }
     }
 }
@@ -134,32 +161,67 @@ function addRow(ind) {
     tabBody = document.getElementById("data").getElementsByTagName("tbody").item(0);
     row = document.createElement("tr");
     cell = document.createElement("td");
-    cell.appendChild(document.createTextNode(ind));
-    row.append(cell);
-    for (var c = 0; c < headers.length * 2; c++) {
-        var cella = document.createElement("td");
-        cella.id = "" + ind + "-" + (c + 1);
-        cella.appendChild(document.createTextNode(""));
-        row.append(cella);
+    if (flag) {
+        cell.appendChild(document.createTextNode(headers[ind]));
+        row.append(cell);
+        for (var c = 0; c < nSlides * 2; c++) {
+            var cella = document.createElement("td");
+            cella.id = "" + (ind + 1) + "-" + (c + 1);
+            cella.appendChild(document.createTextNode(""));
+            row.append(cella);
+        }
+    } else {
+        cell.appendChild(document.createTextNode(ind));
+        row.append(cell);
+        for (var c = 0; c < headers.length * 2; c++) {
+            var cella = document.createElement("td");
+            cella.id = "" + ind + "-" + (c + 1);
+            cella.appendChild(document.createTextNode(""));
+            row.append(cella);
+        }
     }
     tabBody.appendChild(row);
 }
 
 function initTable() {
-    var text = "<tr><th rowspan=\"2\">IMG</th>";
-    for (var i = 0; i < headers.length; i++) {
-        text += "<th colspan=\"2\">" + headers[i] + "</th>";
-    }
-    text += "<tr>";
-    for (var i = 0; i < headers.length; i++) {
-        text += "<th>X</th><th>Y</th>";
+    var text = "";
+    if (flag) {
+        text = "<tr><th rowspan=\"2\">MARKER</th>";
+        for (var i = 1; i <= nSlides; i++) {
+            text += "<th colspan=\"2\">IMG" + i + "</th>";
+        }
+        text += "</tr>";
+        for (var i = 1; i <= nSlides; i++) {
+            text += "<th>X</th><th>Y</th>";
+        }
+    } else {
+        text = "<tr><th rowspan=\"2\">IMG</th>";
+        for (var i = 0; i < headers.length; i++) {
+            text += "<th colspan=\"2\">" + headers[i] + "</th>";
+        }
+        text += "<tr>";
+        for (var i = 0; i < headers.length; i++) {
+            text += "<th>X</th><th>Y</th>";
+        }
     }
     table.innerHTML = text;
-    for (var i = 1; i <= nSlides; i++) {
-        addRow(i);
+    if (flag) {
+        for (var i = 0; i < headers.length; i++) {
+            addRow(i);
+        }
+    } else {
+        for (var i = 1; i <= nSlides; i++) {
+            addRow(i);
+        }
     }
     setupTable();
-    table.rows[slide + 1].cells[0].style.backgroundColor = "#ffffff";
+    if (flag) {
+        for (var i = 0; i < headers.length; i++) {
+            table.rows[i + 2].cells[0].style.backgroundColor = "#ffffff";
+        }
+    } else {
+        table.rows[slide + 1].cells[0].style.backgroundColor = "#ffffff";
+    }
 }
 
 function changeImage() {
