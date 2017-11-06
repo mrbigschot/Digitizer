@@ -22,7 +22,6 @@ function setupEvents() {
     document.getElementById("img").addEventListener("mousedown", function () {
         imgClick(event);
     }, false);
-    document.getElementById("img").addEventListener("onerror", defImage, false);
     document.getElementById("nxtbtn").addEventListener("click", nxtbtnClick, false);
     document.getElementById("prvbtn").addEventListener("click", prvbtnClick, false);
     setupTable();
@@ -163,21 +162,21 @@ function addRow(ind) {
     cell = document.createElement("td");
     if (flag) {
         cell.appendChild(document.createTextNode(headers[ind]));
-        row.append(cell);
+        row.appendChild(cell);
         for (var c = 0; c < nSlides * 2; c++) {
             var cella = document.createElement("td");
             cella.id = "" + (ind + 1) + "-" + (c + 1);
             cella.appendChild(document.createTextNode(""));
-            row.append(cella);
+            row.appendChild(cella);
         }
     } else {
         cell.appendChild(document.createTextNode(ind));
-        row.append(cell);
+        row.appendChild(cell);
         for (var c = 0; c < headers.length * 2; c++) {
             var cella = document.createElement("td");
             cella.id = "" + ind + "-" + (c + 1);
             cella.appendChild(document.createTextNode(""));
-            row.append(cella);
+            row.appendChild(cella);
         }
     }
     tabBody.appendChild(row);
@@ -237,10 +236,6 @@ function changeImage() {
     }
     img.width = w;
     img.height = h;
-}
-
-function defImage() {
-    document.getElementById("img").src = "./images/def.jpg";
 }
 
 function setMenSel() {
