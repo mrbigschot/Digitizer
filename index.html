@@ -1,50 +1,137 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>Digitizer</title>
         <link rel="stylesheet" href="styles.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" 
-              type="image/png" 
-              href="./images/logo.png">
+        <link rel="icon" type="image/png" href="./images/logo.png">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <script src="./js/data.js"></script>
+        <script src="./js/scripts.js"></script>
     </head>
-    <body>
-        <h1>DIGITIZER</h1>
-        <ul class="menu">
-            <li id="start" onclick="menu('start')">START</li>
-            <li id="barbell" onclick="menu('barbell')">BARBELL</li>
-            <li id="lift" onclick="menu('lift')">LIFT</li>
-            <li id="sts" onclick="menu('sts')">STS</li>
-        </ul>
-        <ul class="menu">
-            <li id="balltoss" onclick="menu('balltoss')">BALL TOSS</li>
-            <li id="jardn" onclick="menu('jardn')">JAR DN</li>
-            <li id="jarup" onclick="menu('jarup')">JAR UP</li>
-            <li id="jumpout" onclick="menu('jumpout')">JUMP OUT</li>
-            <li id="jumpup" onclick="menu('jumpup')">JUMP UP</li>
-            <li id="obs" onclick="menu('obs')">OBSTACLE</li>
-        </ul>
-        <ul class="mode">
-            <li id="T" onclick="mode('T')">TALL</li>
-            <li id="S" onclick="mode('S')">SHORT</li>
-        </ul>
-        <hr>
-        <table id="layout">
-            <tr>
-                <td id="image">
-                    <img id="img" src="" alt="Something went wrong!" onerror="defImage()" 
-                         width="500" height="500">
-                </td>
-                <td id="info">
-                    <table id="data" width="100%"></table>
+    <body onload="startup()">
+        <div id="header">
+            <div id="headerLeft">
+                <h1>DIGITIZER</h1>
+            </div>
+            <div id="headerRight">
+                <div class="current">
+                    <span id="currentCategory">Current</span>
+                    <span id="currentSubCategory">Current</span>
+                </div>
+                <ul id="menu" class="menu">
+                    <li>
+                        <div id="categoryMenu" class="categoryMenu">
+                            <div id="categoryButton" class="menuButton" onclick="toggleMenu(this)">Category <i class="fas fa-angle-down"></i></div>
+                            <div class="subMenuContainer">
+                                <ul id="categoryOptions" class="subMenu">
+                                    <li>
+                                        <div class="subMenuItem" value="" onclick="categorySelect(this)">START</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="subCategoryMenu"class="categoryMenu">
+                            <div id="subjectButton" class="menuButton" onclick="toggleMenu(this)">Subject <i class="fas fa-angle-down"></i></div>
+                            <div id="subCategoryMenu" class="subMenuContainer">
+                                <ul id="subCategoryOptions" class="subMenu">
+                                    <li>
+                                        <div class="subMenuItem" value="0" onclick="subCategorySelect(this)">TALL</div>
+                                    </li>
+                                    <li>
+                                        <div class="subMenuItem" value="1" onclick="subCategorySelect(this)">SHORT</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="content">
+            <div class="columnLeft">
+                <div class="imgContainer">
+                    <img id="img" src="" alt="Something went wrong!" onerror="" width="500" height="500">
+                </div>
+                <div id="imgButtons" class="bottom">
+                    <a id="prvBtn" class="button" href="javascript:prevImg()"><i class="fas fa-angle-left"></i> PREV</a>
+                    <a id="nxtBtn" class="button" href="javascript:nextImg()">NEXT <i class="fas fa-angle-right"></i></a>
+                </div>
+            </div>
+            <div class="columnRight">
+                <div class="tableContainer">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <td rowspan="2">H1</td>
+                                <td colspan="2">H2</td>
+                                <td colspan="2">H2</td>
+                                <td colspan="2">H2</td>
+                                <td colspan="2">H2</td>
+                                <td colspan="2">H2</td>
+                            </tr>
+                            <tr>
+                                <td>X</td>
+                                <td>Y</td>
+                                <td>X</td>
+                                <td>Y</td>
+                                <td>X</td>
+                                <td>Y</td>
+                                <td>X</td>
+                                <td>Y</td>
+                                <td>X</td>
+                                <td>Y</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="current">
+                                <td>V1</td>
+                                <td>V2</td>
+                                <td>V3</td>
+                                <td>V4</td>
+                                <td>V5</td>
+                                <td>V6</td>
+                                <td>V7</td>
+                                <td>V8</td>
+                                <td>V9</td>
+                                <td>V10</td>
+                                <td>V11</td>
+                            </tr>
+                            <tr>
+                                <td>V1</td>
+                                <td>V2</td>
+                                <td>V3</td>
+                                <td>V4</td>
+                                <td>V5</td>
+                                <td>V6</td>
+                                <td>V7</td>
+                                <td>V8</td>
+                                <td>V9</td>
+                                <td>V10</td>
+                                <td>V11</td>
+                            </tr>
+                            <tr>
+                                <td>V1</td>
+                                <td>V2</td>
+                                <td>V3</td>
+                                <td>V4</td>
+                                <td>V5</td>
+                                <td>V6</td>
+                                <td>V7</td>
+                                <td>V8</td>
+                                <td>V9</td>
+                                <td>V10</td>
+                                <td>V11</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bottom">
                     <p class="prompt" id="prompt">Last click: ( , )</p>
-                    <button id="nxtbtn" type="button">NEXT IMAGE</button>
-                    <button id="prvbtn" type="button">PREVIOUS IMAGE</button>
-                </td>
-            </tr>
-        </table>
-        <script src="./js/digitizerScript.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
+                </div>
+            </div>
+        </div>
     </body>
 </html>
