@@ -223,14 +223,6 @@ p.prompt {
 
 }
 
-div.bottom {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    display: inline;
-    padding-bottom: 5px;
-}
-
 /********************** IMAGE ITEMS **********************/
 
 div.imgContainer {
@@ -242,8 +234,30 @@ div.imgContainer {
 img {
     border: 1px solid #000000;
     cursor: crosshair;
+    transition: src 1s;
 }
 
+div.imgButtons {
+    display: flex;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 5px;
+}
+
+div.imgButtons a.button {
+    flex: 1;
+}
+
+div.imgButtons span {
+    color: #ffffff;
+    font-family: geneva, arial, sans-serif;
+    text-align: center;
+    display: inline-block;
+    flex: 1;
+    font-size: 14px;
+    padding: 2px 0px 2px 0px;
+}
 /********************** TABLE ITEMS **********************/
 
 div.tableContainer {

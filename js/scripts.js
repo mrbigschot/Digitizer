@@ -1,12 +1,17 @@
 var currentDataSet;
 var currentSubCategory;
 var currentImage = 0;
+var lastClick = [];
 
 function startup() {
     initData();
     initMenus();
     selectFirstCategoryOption();
     changeImage();
+    document.addEventListener("click", function(event) {
+        closeMenus(event);
+    });
+    document.getElementById("img").addEventListener("mousedown", imgClick);
 }
 
 function initMenus() {
@@ -75,6 +80,7 @@ function updateCategoryDisplay() {
         document.getElementById("subCategoryMenu").classList.add("disabled");
         document.getElementById("subCategoryMenu").classList.remove("open");
     }
+    currentImage = 1;
     changeImage();
     initTable();
 }
@@ -131,14 +137,16 @@ function initTable() {
             td = document.createElement("td");
             td.setAttribute("row", "" + i);
             td.setAttribute("col", "" + j);
-            td.onmouseover = function () { tableHover(this); };
-            td.onmouseleave = function () { tableLeave(this); };
+            td.onmouseover = function() { tableHover(this); };
+            td.onmouseleave = function() { tableLeave(this); };
+            td.onclick = function() { tableClick(this); };
             tr.appendChild(td);
             td = document.createElement("td");
             td.setAttribute("row", "" + i);
             td.setAttribute("col", "" + j);
-            td.onmouseover = function () { tableHover(this); };
-            td.onmouseleave = function () { tableLeave(this); };
+            td.onmouseover = function() { tableHover(this); };
+            td.onmouseleave = function() { tableLeave(this); };
+            td.onclick = function() { tableClick(this); };
             tr.appendChild(td);
         }
         tbody.appendChild(tr);
@@ -146,35 +154,6 @@ function initTable() {
     table.appendChild(thead);
     table.appendChild(tbody);
 }
-
-// function tableClick(tableCell) {
-//     var loc = tableCell.id.split('-');
-//     var row = parseInt(loc[0]);
-//     var col = parseInt(loc[1]);
-//     if (lastClick[0] && lastClick[1]) {
-//         if (flag) {
-//             if (Math.ceil(col / 2) === slide) {
-//                 if (col % 2 !== 0) {
-//                     table.rows[row + 1].cells[col].innerHTML = lastClick[0];
-//                     table.rows[row + 1].cells[col + 1].innerHTML = lastClick[1];
-//                 } else {
-//                     table.rows[row + 1].cells[col - 1].innerHTML = lastClick[0];
-//                     table.rows[row + 1].cells[col].innerHTML = lastClick[1];
-//                 }
-//             }
-//         } else {
-//             if (row === slide) {
-//                 if (col % 2 !== 0) {
-//                     table.rows[row + 1].cells[col].innerHTML = lastClick[0];
-//                     table.rows[row + 1].cells[col + 1].innerHTML = lastClick[1];
-//                 } else {
-//                     table.rows[row + 1].cells[col - 1].innerHTML = lastClick[0];
-//                     table.rows[row + 1].cells[col].innerHTML = lastClick[1];
-//                 }
-//             }
-//         }
-//     }
-// }
 
 function tableHover(cell) {
     var row = parseInt(cell.getAttribute("row"));
@@ -194,6 +173,19 @@ function tableLeave(cell) {
     tbody.rows[row].cells[col + 1].classList.remove("highlight");
 }
 
+function tableClick(cell) {
+    var row = parseInt(cell.getAttribute("row"));
+    var col = 1 + 2 * parseInt(cell.getAttribute("col"));
+    if (lastClick[0] && lastClick[1]) {
+        if ((row + 1) == currentImage) {
+            var table = document.getElementById("dataTable");
+            var tbody = table.getElementsByTagName("tbody")[0];
+            tbody.rows[row].cells[col].innerHTML = lastClick[0];
+            tbody.rows[row].cells[col + 1].innerHTML = lastClick[1];
+        }
+    }
+}
+
 function closeMenus(event) {
     var targetElement = event.target;
     var menu = document.getElementById("menu");
@@ -211,19 +203,49 @@ function closeMenus(event) {
 }
 
 function changeImage() {
-    var frame = 1;
     var img = document.getElementById("img");
     var source = "./images/" + currentDataSet.imageDir + "/" + getSubCategory(currentSubCategory) + currentDataSet.image;
     if (currentDataSet.getNumberOfImages(currentSubCategory) > 1) {
-        source += "" + frame;
+        source += "" + currentImage;
     }
     source += ".jpg";
     img.src = source;
-    console.log(source);
     img.setAttribute("width", currentDataSet.imgWidth);
     img.setAttribute("height", currentDataSet.imgHeight);
-    // img.parentElement.setAttribute("width", currentDataSet.imgWidth + "px");
-    // img.parentElement.setAttribute("height", currentDataSet.imgHeight + "px");
+    var tbody = document.getElementsByTagName("tbody")[0];
+    var rows = tbody.getElementsByTagName("tr");
+    for (var i = 0; i < rows.length; i++) {
+        rows[i].classList.remove("current");
+        if ((i + 1) == currentImage) {
+            rows[i].classList.add("current");
+        }
+    }
+    document.getElementById("currentImage").innerHTML = currentImage;
+    document.getElementById("totalImages").innerHTML = currentDataSet.getNumberOfImages(currentSubCategory);
 }
 
-document.addEventListener("click", function(event) { closeMenus(event); } );
+function nextImage() {
+    if (currentImage < currentDataSet.getNumberOfImages(currentSubCategory)) {
+        currentImage++;
+    } else {
+        currentImage = 1;
+    }
+    changeImage();
+}
+
+function prevImage() {
+    if (currentImage > 1) {
+        currentImage--;
+    } else {
+        currentImage = currentDataSet.getNumberOfImages(currentSubCategory);
+    }
+    changeImage();
+}
+
+function imgClick(evt) {
+    var img = document.getElementById("img");
+    var rect = img.getBoundingClientRect();
+    lastClick[0] = Math.round(evt.clientX - rect.left);
+    lastClick[1] = Math.round(rect.bottom - evt.clientY);
+    document.getElementById("prompt").innerHTML = "Last click: (" + lastClick[0] + ", " + lastClick[1] + ")";
+}
