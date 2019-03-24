@@ -1,7 +1,7 @@
 var currentDataSet;
 var currentSubCategory;
 var currentImage = 0;
-var lastClick = [];
+var lastClick = [0, 0];
 
 function startup() {
     initData();
@@ -104,24 +104,25 @@ function initTable() {
     var thead = document.createElement("thead")
     var tbody = document.createElement("tbody");
     var tr;
+    var th;
     var td;
     var headRow1 = document.createElement("tr");
     var headRow2 = document.createElement("tr");
-    td = document.createElement("td");
-    td.setAttribute("rowspan", "2");
-    td.innerHTML = "Frame";
-    headRow1.appendChild(td);
+    th = document.createElement("th");
+    th.setAttribute("rowspan", "2");
+    th.innerHTML = "Frame";
+    headRow1.appendChild(th);
     for (var i = 0; i < currentDataSet.headers.length; i++) {
-        td = document.createElement("td");
-        td.setAttribute("colspan", "2");
-        td.innerHTML = currentDataSet.headers[i];
-        headRow1.appendChild(td);
-        td = document.createElement("td");
-        td.innerHTML = "x";
-        headRow2.appendChild(td);
-        td = document.createElement("td");
-        td.innerHTML = "y";
-        headRow2.appendChild(td);
+        th = document.createElement("th");
+        th.setAttribute("colspan", "2");
+        th.innerHTML = currentDataSet.headers[i];
+        headRow1.appendChild(th);
+        th = document.createElement("th");
+        th.innerHTML = "x";
+        headRow2.appendChild(th);
+        th = document.createElement("th");
+        th.innerHTML = "y";
+        headRow2.appendChild(th);
     }
     thead.appendChild(headRow1);
     thead.appendChild(headRow2);
@@ -247,5 +248,10 @@ function imgClick(evt) {
     var rect = img.getBoundingClientRect();
     lastClick[0] = Math.round(evt.clientX - rect.left);
     lastClick[1] = Math.round(rect.bottom - evt.clientY);
-    document.getElementById("prompt").innerHTML = "Last click: (" + lastClick[0] + ", " + lastClick[1] + ")";
+    document.getElementById("lastX").innerHTML = lastClick[0];
+    document.getElementById("lastY").innerHTML = lastClick[1];
+}
+
+function generateCSV() {
+    table2CSV(document.getElementById("dataTable"), currentDataSet);
 }

@@ -104,3 +104,68 @@ function getSubCategory(value) {
     }
     return "";
 }
+
+function table2CSV(table, dataset) {
+    var csvData = [];
+
+    // header data
+    var tmpRow = [];
+    tmpRow[tmpRow.length] = "Frame";
+    for (var h = 0; h < dataset.headers.length; h++) {
+        tmpRow[tmpRow.length] = dataset.headers[h] + " X";
+        tmpRow[tmpRow.length] = dataset.headers[h] + " Y";
+    }
+    row2CSV(tmpRow);
+
+    // actual data
+    var tableBody = table.getElementsByTagName("tbody")[0];
+    var tableRows = tableBody.getElementsByTagName("tr");
+    for (var r = 0; r < tableRows.length; r++) {
+        var tmpRow = [];
+        var cells = table.getElementsByTagName("td");
+        for (var c = 0; c < cells.length; c++) {
+            tmpRow[tmpRow.length] = formatData(cells[c]);
+        }
+        row2CSV(tmpRow);
+    }
+
+    var mydata = csvData.join('\n');
+    var filename = dataset.image + getSubCategory(currentSubCategory) + ".csv";
+    download(mydata, filename);
+
+    function row2CSV(tmpRow) {
+        var tmp = tmpRow.join('') // to remove any blank rows
+        if (tmpRow.length > 0 && tmp) {
+            var mystr = tmpRow.join(',');
+            csvData[csvData.length] = mystr;
+        }
+    }
+
+    function formatData(cell) {
+        var output = cell.innerText;
+        if (!output) return '';
+        return output.trim();
+    }
+
+    function popup(data) {
+        var generator = window.open('', 'csv', 'height=400,width=600');
+        generator.document.write('<html><head><title>CSV</title>');
+        generator.document.write('</head><body >');
+        generator.document.write('<textArea cols=70 rows=15 wrap="off" >');
+        generator.document.write(data);
+        generator.document.write('</textArea>');
+        generator.document.write('</body></html>');
+        generator.document.close();
+        return true;
+    }
+
+    function download(data, filename) {
+        var blob = new Blob([data], {type: "text/csv"});
+        var a = document.createElement('a');
+        a.setAttribute("href", window.URL.createObjectURL(blob));
+        a.setAttribute("download", filename);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+};

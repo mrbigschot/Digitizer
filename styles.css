@@ -178,49 +178,19 @@ div.columnRight {
     width: 100%;
 }
 
-a.button {
-    display: inline-block;
-    background-color: #222222;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
-    width: 80px;
-    padding: 2px 2px 2px 2px;
-    margin: 2px 5px 2px 5px;
-    cursor: pointer;
-
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 12px;
-    font-family: geneva, arial, sans-serif;
-    text-align: center;
-    text-transform: uppercase;
-
-    transition: background-color 0.25s, border 0.25s;
-}
-
-a.button:hover {
-    background-color: #aaaaaa;
-    border: 1px solid #ffffff;
-}
-
-a#prvBtn {
-    float: left;
-}
-
-a#nxtBtn {
-    float: right;
-}
-
 p.prompt {
     display: inline-block;
     font-size: 12px;
-    background-color: #b7f1a5;
-    color: green;
-    font-family: monospace;
-    border: 1px solid #000000;
-    padding: 5px 5px 5px;
+    color: #aaaaaa;
+    font-family: geneva, arial, sans-serif;;
+    border: 1px solid #aaaaaa;
+    padding: 5px 5px 5px 5px;
     margin: 0px;
-
+    width: 100px;
+    text-transform: uppercase;
+}
+span#lastClick {
+    /* float:right; */
 }
 
 /********************** IMAGE ITEMS **********************/
@@ -233,7 +203,7 @@ div.imgContainer {
 
 img {
     border: 1px solid #000000;
-    cursor: crosshair;
+    cursor: url(images/crosshair.png), crosshair;
     transition: src 1s;
 }
 
@@ -247,6 +217,35 @@ div.imgButtons {
 
 div.imgButtons a.button {
     flex: 1;
+    background-color: #222222;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    width: 80px;
+    font-size: 12px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 2px 2px 2px 2px;
+    margin: 2px 5px 2px 5px;
+    /* border-radius: 4px; */
+
+    font-family: geneva, arial, sans-serif;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background-color 0.25s, border 0.25s;
+}
+
+div.imgButtons a.button:hover {
+    background-color: #aaaaaa;
+    border: 1px solid #ffffff;
+}
+
+a#prvBtn {
+    float: left;
+}
+
+a#nxtBtn {
+    float: right;
 }
 
 div.imgButtons span {
@@ -261,7 +260,7 @@ div.imgButtons span {
 /********************** TABLE ITEMS **********************/
 
 div.tableContainer {
-    margin-bottom: 35px;
+    margin-bottom: 20px;
 }
 
 table {
@@ -282,7 +281,7 @@ thead {
     border-collapse: collapse;
 }
 
-td {
+th, td {
     text-align: center;
     padding: 2px 2px 2px 2px;
     border: 1px solid black;
@@ -294,14 +293,33 @@ tbody tr td {
 
 tbody tr.current td {
     background-color: #ffffff;
-}
-
-div.th-div {
-    display: block;
-    width:10px;
+    transition: background-color .25s;
 }
 
 tbody tr.current td.highlight {
     background-color: #eeeeee;
     border: 2px solid #333333;
+}
+
+button#download {
+    background-color: #222222;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    width: 180px;
+    font-size: 14px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 5px 5px 5px 5px;
+    /* border-radius: 4px; */
+    float:right;
+
+    font-family: geneva, arial, sans-serif;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background-color 0.25s, border 0.25s;
+}
+
+button#download:hover {
+    background-color: #aaaaaa;
 }
