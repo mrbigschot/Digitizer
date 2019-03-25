@@ -134,8 +134,9 @@ function table2CSV(table, dataset) {
     var tableBody = table.getElementsByTagName("tbody")[0];
     var tableRows = tableBody.getElementsByTagName("tr");
     for (var r = 0; r < tableRows.length; r++) {
+        var tableRow = tableRows[r];
         var tmpRow = [];
-        var cells = table.getElementsByTagName("td");
+        var cells = tableRow.getElementsByTagName("td");
         for (var c = 0; c < cells.length; c++) {
             tmpRow[tmpRow.length] = formatData(cells[c]);
         }
