@@ -20,50 +20,62 @@ function initData() {
     datasets = [
         new DataSetNoSub("Sprint Start",
             ["LTOE", "RTOE", "LANK", "RANK", "LKNE", "RKNE", "LHIP", "RHIP", "LSHL", "RSHL", "LELB", "RELB", "LWRI", "RWRI", "EAR"],
+            ["Left toe", "Right toe", "Left ankle", "Right ankle", "Left knee", "Right knee", "Left hip", "Right hip",
+                "Left shoulder", "Right shoulder", "Left elbow", "Right elbow", "Left wrist", "Right wrist", "Ear"],
             1, "more", "Sprinter", 290, 356
         ),
         new DataSetNoSub("Barbell Lift",
             ["REF", "HEEL", "TOE", "ANK", "KNE", "HIP", "SHL", "EAR", "BAR"],
+            ["Reference", "Heel", "Toe", "Ankle", "Knee", "Hip", "Shoulder", "Ear", "Bar"],
             1, "more", "OlympicLift", 169, 405
         ),
         new DataSetNoSub("Box Lift",
             ["TOE", "MFT", "HEEL", "ANK", "KNE", "HIP", "SHL", "WRI", "EAR", "BOX UL", "BOX BR"],
+            ["Toe", "Midfoot", "Heel", "Ankle", "Knee", "Hip", "Shoulder", "Wrist", "Ear", "Box (upper left)", "Box (bottom right)"],
             1, "more", "BoxLift", 224, 315
         ),
         new DataSetNoSub("Sit to Stand",
-            ["LREF", "REF", "TOE", "HEEL", "ANK", "KNE", "HIP", "SHL", "ELB", "WRI", "EAR"],
+            ["REFL", "REFR", "TOE", "HEEL", "ANK", "KNE", "HIP", "SHL", "ELB", "WRI", "EAR"],
+            ["Reference( left)", "Reference (right)", "Toe", "Heel", "Ankle", "Knee", "Hip", "Shoulder", "Elbow", "Wrist", "Ear"],
             3, "STS", "STS", 336, 472
         ),
         new DataSet("Ball Toss",
             ["REFBR", "REFTL", "EAR", "HIP", "KNE", "ANK", "TOE", "BALL", "WRI", "ELB", "SHL"],
+            ["Reference (bottom right)", "Reference (top left)", "Ear", "Hip", "Knee", "Ankle", "Toe", "Ball", "Wrist", "Elbow", "Shoulder"],
             [16, 14], "BALL_TOSS", "BT", 500, 281
         ),
         new DataSet("Jar Down",
             ["REFBR", "REFTL", "EAR", "HIP", "KNE", "ANK", "TOE", "JAR", "WRI", "ELB", "SHL"],
+            ["Reference (bottom right)", "Reference (top left)", "Ear", "Hip", "Knee", "Ankle", "Toe", "Jar", "Wrist", "Elbow", "Shoulder"],
             [11, 12], "JAR_DN", "LO", 500, 281
         ),
         new DataSet("Jar Up",
             ["REFBR", "REFTL", "EAR", "HIP", "KNE", "ANK", "TOE", "JAR", "WRI", "ELB", "SHL"],
+            ["Reference (bottom right)", "Reference (top left)", "Ear", "Hip", "Knee", "Ankle", "Toe", "Jar", "Wrist", "Elbow", "Shoulder"],
             [13, 11], "JAR_UP", "RO", 500, 281
         ),
         new DataSet("Jump Out",
             ["REFBR", "REFTL", "TOE", "ANK", "KNE", "HIP", "SHL", "EAR"],
+            ["Reference (bottom right)", "Reference (top left)", "Toe", "Ankle", "Knee", "Hip", "Shoulder", "Ear"],
             [20, 20], "JUMP_OUT", "HJ", 500, 281
         ),
         new DataSet("Jump Up",
             ["REFBR", "REFTL", "TOE", "ANK", "KNE", "HIP", "SHL", "EAR"],
+            ["Reference (bottom right)", "Reference (top left)", "Toe", "Ankle", "Knee", "Hip", "Shoulder", "Ear"],
             [15, 18], "JUMP_UP", "VJ", 500, 281
         ),
         new DataSet("Obstacle",
             ["REFBR", "REFTL", "TOE", "ANK", "KNE", "HIP", "SHL", "EAR"],
+            ["Reference (bottom right)", "Reference (top left)", "Toe", "Ankle", "Knee", "Hip", "Shoulder", "Ear"],
             [12, 13], "OBSTACLE", "SB", 500, 281
         )
     ];
 }
 
-function DataSet(name, headers, numImages, imgDir, img, w, h) {
+function DataSet(name, headers, headersLong, numImages, imgDir, img, w, h) {
     this.name = name;
     this.headers = headers;
+    this.headersLong = headersLong;
     this.numImages = numImages;
     this.imageDir = imgDir
     this.image = img
@@ -76,9 +88,10 @@ function DataSet(name, headers, numImages, imgDir, img, w, h) {
     this.hasSub = true;
 }
 
-function DataSetNoSub(name, headers, numImages, imgDir, img, w, h) {
+function DataSetNoSub(name, headers, headersLong, numImages, imgDir, img, w, h) {
     this.name = name;
     this.headers = headers;
+    this.headersLong = headersLong;
     this.numImages = numImages;
     this.imageDir = imgDir
     this.image = img

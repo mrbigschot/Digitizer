@@ -116,6 +116,7 @@ function initTable() {
         th = document.createElement("th");
         th.setAttribute("colspan", "2");
         th.innerHTML = currentDataSet.headers[i];
+        th.setAttribute("title", currentDataSet.headersLong[i]);
         headRow1.appendChild(th);
         th = document.createElement("th");
         th.innerHTML = "x";
