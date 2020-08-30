@@ -204,7 +204,6 @@ div.imgContainer {
 img {
     border: 1px solid #000000;
     cursor: url(images/crosshair.png) 15 15, crosshair;
-    transition: src 1s;
 }
 
 div.imgButtons {

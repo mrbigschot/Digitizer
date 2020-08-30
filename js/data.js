@@ -2,13 +2,14 @@
 var TYPE_START = 0;
 var TYPE_BARBELL = 1;
 var TYPE_LIFT = 2;
-var TYPE_STS = 3;
-var TYPE_BALL_TOSS = 4;
-var TYPE_JAR_DN = 5;
-var TYPE_JAR_UP = 6;
-var TYPE_JUMP_OUT = 7;
-var TYPE_JUMP_UP = 8;
-var TYPE_OBSTACLE = 9;
+var TYPE_GLUTE_EX = 3;
+var TYPE_STS = 4;
+var TYPE_BALL_TOSS = 5;
+var TYPE_JAR_DN = 6;
+var TYPE_JAR_UP = 7;
+var TYPE_JUMP_OUT = 8;
+var TYPE_JUMP_UP = 9;
+var TYPE_OBSTACLE = 10;
 
 // SUBJECT TYPES
 var TYPE_TALL = 0;
@@ -33,6 +34,11 @@ function initData() {
             ["TOE", "MFT", "HEEL", "ANK", "KNE", "HIP", "SHL", "WRI", "EAR", "BOX UL", "BOX BR"],
             ["Toe", "Midfoot", "Heel", "Ankle", "Knee", "Hip", "Shoulder", "Wrist", "Ear", "Box (upper left)", "Box (bottom right)"],
             1, "more", "BoxLift", 224, 315
+        ),
+        new DataSetNoSub("Glute Exercise",
+            ["LTOE", "LANK", "LWGT", "LKNE", "RTOE", "RANK", "RWGT", "RKNE", "HIP", "SHL", "ELB", "WRI", "EAR"],
+            ["Left Toe", "Left Ankle", "Left Weight", "Left Knee", "Right Toe", "Right Ankle", "Right Weight", "Right Knee", "Hip", "Shoulder", "Elbow", "Wrist", "Ear"],
+            1, "more", "GluteEx", 352, 235
         ),
         new DataSetNoSub("Sit to Stand",
             ["REFL", "REFR", "TOE", "HEEL", "ANK", "KNE", "HIP", "SHL", "ELB", "WRI", "EAR"],
@@ -182,4 +188,4 @@ function table2CSV(table, dataset) {
         a.click();
         document.body.removeChild(a);
     }
-};
+}
