@@ -112,11 +112,11 @@ function initTable() {
     th.setAttribute("rowspan", "2");
     th.innerHTML = "Frame";
     headRow1.appendChild(th);
-    for (var i = 0; i < currentDataSet.headers.length; i++) {
+    for (var i = 0; i < currentDataSet.datapoints.length; i++) {
         th = document.createElement("th");
         th.setAttribute("colspan", "2");
-        th.innerHTML = currentDataSet.headers[i];
-        th.setAttribute("title", currentDataSet.headersLong[i]);
+        th.innerHTML = currentDataSet.datapoints[i][0];
+        th.setAttribute("title", currentDataSet.datapoints[i][1]);
         headRow1.appendChild(th);
         th = document.createElement("th");
         th.innerHTML = "x";
@@ -135,7 +135,7 @@ function initTable() {
         td = document.createElement("td");
         td.innerHTML = "" + (i + 1);
         tr.appendChild(td);
-        for (var j = 0; j < currentDataSet.headers.length; j++) {
+        for (var j = 0; j < currentDataSet.datapoints.length; j++) {
             td = document.createElement("td");
             td.setAttribute("row", "" + i);
             td.setAttribute("col", "" + j);

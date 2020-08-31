@@ -20,68 +20,182 @@ var datasets;
 function initData() {
     datasets = [
         new DataSetNoSub("Sprint Start",
-            ["LTOE", "RTOE", "LANK", "RANK", "LKNE", "RKNE", "LHIP", "RHIP", "LSHL", "RSHL", "LELB", "RELB", "LWRI", "RWRI", "EAR"],
-            ["Left toe", "Right toe", "Left ankle", "Right ankle", "Left knee", "Right knee", "Left hip", "Right hip",
-                "Left shoulder", "Right shoulder", "Left elbow", "Right elbow", "Left wrist", "Right wrist", "Ear"],
+            [
+                ["LTOE", "Left Toe"],
+                ["RTOE", "Right Toe"],
+                ["LANK", "Left Ankle"],
+                ["RANK", "Right Ankle"],
+                ["LKNE", "Left Knee"],
+                ["RKNE", "Right Knee"],
+                ["LHIP", "Left Hip"],
+                ["RHIP", "Right Hip"],
+                ["LSHL", "Left Shoulder"],
+                ["RSHL", "Right Shoulder"],
+                ["LELB", "Left Elbow"],
+                ["RELB", "Right Elbow"],
+                ["LWRI", "Left Wrist"],
+                ["RWRI", "Right Wrist"],
+                ["EAR", "Ear"]
+            ],
             1, "more", "Sprinter", 290, 356
         ),
         new DataSetNoSub("Barbell Lift",
-            ["REF", "HEEL", "TOE", "ANK", "KNE", "HIP", "SHL", "EAR", "BAR"],
-            ["Reference", "Heel", "Toe", "Ankle", "Knee", "Hip", "Shoulder", "Ear", "Bar"],
+            [
+                ["REF", "Reference"],
+                ["HEEL", "Heel"],
+                ["TOE", "Toe"],
+                ["ANK", "Ankle"],
+                ["KNE", "Knee"],
+                ["HIP", "Hip"],
+                ["SHL", "Shoulder"],
+                ["EAR", "Ear"],
+                ["BAR", "Bar"]
+            ],
             1, "more", "OlympicLift", 169, 405
         ),
         new DataSetNoSub("Box Lift",
-            ["TOE", "MFT", "HEEL", "ANK", "KNE", "HIP", "SHL", "WRI", "EAR", "BOX UL", "BOX BR"],
-            ["Toe", "Midfoot", "Heel", "Ankle", "Knee", "Hip", "Shoulder", "Wrist", "Ear", "Box (upper left)", "Box (bottom right)"],
+            [
+                ["TOE", "Toe"],
+                ["MFT", "Midfoot"],
+                ["HEEL", "Heel"],
+                ["ANK", "Ankle"],
+                ["KNE", "Knee"],
+                ["HIP", "Hip"],
+                ["SHL", "Shoulder"],
+                ["WRI", "Wrist"],
+                ["EAR", "Ear"],
+                ["BOX UL", "Box (upper left)"], 
+                ["BOX BR", "Box (bottom right)"]
+            ],
             1, "more", "BoxLift", 224, 315
         ),
         new DataSetNoSub("Glute Exercise",
-            ["LTOE", "LANK", "LWGT", "LKNE", "RTOE", "RANK", "RWGT", "RKNE", "HIP", "SHL", "ELB", "WRI", "EAR"],
-            ["Left Toe", "Left Ankle", "Left Weight", "Left Knee", "Right Toe", "Right Ankle", "Right Weight", "Right Knee", "Hip", "Shoulder", "Elbow", "Wrist", "Ear"],
+            [
+                ["LTOE", "Left Toe"],
+                ["LANK", "Left Ankle"],
+                ["LWGT", "Left Weight"],
+                ["LKNE", "Right Weight"],
+                ["RTOE", "Right Toe"],
+                ["RANK", "Right Ankle"],
+                ["RWGT", "Right Weight"],
+                ["RKNE", "Right Knee"],
+                ["HIP", "Hip"],
+                ["SHL", "Shouler"],
+                ["ELB", "Elbow"],
+                ["WRI", "Wrist"],
+                ["EAR", "Ear"]
+            ],
             1, "more", "GluteEx", 352, 235
         ),
         new DataSetNoSub("Sit to Stand",
-            ["REFL", "REFR", "TOE", "HEEL", "ANK", "KNE", "HIP", "SHL", "ELB", "WRI", "EAR"],
-            ["Reference( left)", "Reference (right)", "Toe", "Heel", "Ankle", "Knee", "Hip", "Shoulder", "Elbow", "Wrist", "Ear"],
+            [
+                ["REFL", "Reference (left)"],
+                ["REFR", "Reference (right)"],
+                ["TOE", "Toe"],
+                ["HEEL", "Heel"],
+                ["ANK", "Ankle"],
+                ["KNE", "Knee"],
+                ["HIP", "Hip"],
+                ["SHL", "Shoulder"],
+                ["ELB", "Elbow"],
+                ["WRI", "Wrist"],
+                ["EAR", "Ear"]
+            ],
             3, "STS", "STS", 336, 472
         ),
         new DataSet("Ball Toss",
-            ["REFBR", "REFTL", "EAR", "HIP", "KNE", "ANK", "TOE", "BALL", "WRI", "ELB", "SHL"],
-            ["Reference (bottom right)", "Reference (top left)", "Ear", "Hip", "Knee", "Ankle", "Toe", "Ball", "Wrist", "Elbow", "Shoulder"],
+            [
+                ["REFBR", "Reference (bottom right)"],
+                ["REFTL", "Reference (top left)"],
+                ["EAR", "Ear"],
+                ["HIP", "Hip"],
+                ["KNE", "Knee"],
+                ["ANK", "Ankle"],
+                ["TOE", "Toe"],
+                ["BALL", "Ball"],
+                ["WRI", "Wrist"],
+                ["ELB", "Elbow"],
+                ["SHL", "Shoulder"]
+            ],
             [16, 14], "BALL_TOSS", "BT", 500, 281
         ),
         new DataSet("Jar Down",
-            ["REFBR", "REFTL", "EAR", "HIP", "KNE", "ANK", "TOE", "JAR", "WRI", "ELB", "SHL"],
-            ["Reference (bottom right)", "Reference (top left)", "Ear", "Hip", "Knee", "Ankle", "Toe", "Jar", "Wrist", "Elbow", "Shoulder"],
+            [
+                ["REFBR", "Reference (bottom right)"],
+                ["REFTL", "Reference (top left)"],
+                ["EAR", "Ear"],
+                ["HIP", "Hip"],
+                ["KNE", "Knee"],
+                ["ANK", "Ankle"],
+                ["TOE", "Toe"],
+                ["JAR", "Jar"],
+                ["WRI", "Wrist"],
+                ["ELB", "Elbow"],
+                ["SHL", "Shoulder"]
+            ],
             [11, 12], "JAR_DN", "LO", 500, 281
         ),
         new DataSet("Jar Up",
-            ["REFBR", "REFTL", "EAR", "HIP", "KNE", "ANK", "TOE", "JAR", "WRI", "ELB", "SHL"],
-            ["Reference (bottom right)", "Reference (top left)", "Ear", "Hip", "Knee", "Ankle", "Toe", "Jar", "Wrist", "Elbow", "Shoulder"],
+            [
+                ["REFBR", "Reference (bottom right)"],
+                ["REFTL", "Reference (top left)"],
+                ["EAR", "Ear"],
+                ["HIP", "Hip"],
+                ["KNE", "Knee"],
+                ["ANK", "Ankle"],
+                ["TOE", "Toe"],
+                ["JAR", "Jar"],
+                ["WRI", "Wrist"],
+                ["ELB", "Elbow"],
+                ["SHL", "Shoulder"]
+            ],
             [13, 11], "JAR_UP", "RO", 500, 281
         ),
         new DataSet("Jump Out",
-            ["REFBR", "REFTL", "TOE", "ANK", "KNE", "HIP", "SHL", "EAR"],
-            ["Reference (bottom right)", "Reference (top left)", "Toe", "Ankle", "Knee", "Hip", "Shoulder", "Ear"],
+            [
+                ["REFBR", "Reference (bottom right)"],
+                ["REFTL", "Reference (top left)"],
+                ["TOE", "Toe"],
+                ["ANK", "Ankle"],
+                ["KNE", "Knee"],
+                ["HIP", "Hip"],
+                ["SHL", "Shoulder"],
+                ["EAR", "Ear"]
+            ],
             [20, 20], "JUMP_OUT", "HJ", 500, 281
         ),
         new DataSet("Jump Up",
-            ["REFBR", "REFTL", "TOE", "ANK", "KNE", "HIP", "SHL", "EAR"],
-            ["Reference (bottom right)", "Reference (top left)", "Toe", "Ankle", "Knee", "Hip", "Shoulder", "Ear"],
+            [
+                ["REFBR", "Reference (bottom right)"],
+                ["REFTL", "Reference (top left)"],
+                ["TOE", "Toe"],
+                ["ANK", "Ankle"],
+                ["KNE", "Knee"],
+                ["HIP", "Hip"],
+                ["SHL", "Shoulder"],
+                ["EAR", "Ear"]
+            ],
             [15, 18], "JUMP_UP", "VJ", 500, 281
         ),
         new DataSet("Obstacle",
-            ["REFBR", "REFTL", "TOE", "ANK", "KNE", "HIP", "SHL", "EAR"],
-            ["Reference (bottom right)", "Reference (top left)", "Toe", "Ankle", "Knee", "Hip", "Shoulder", "Ear"],
+            [
+                ["REFBR", "Reference (bottom right)"],
+                ["REFTL", "Reference (top left)"],
+                ["TOE", "Toe"],
+                ["ANK", "Ankle"],
+                ["KNE", "Knee"],
+                ["HIP", "Hip"],
+                ["SHL", "Shoulder"],
+                ["EAR", "Ear"]
+            ],
             [12, 13], "OBSTACLE", "SB", 500, 281
         )
     ];
 }
 
-function DataSet(name, headers, headersLong, numImages, imgDir, img, w, h) {
+function DataSet(name, datapoints, numImages, imgDir, img, w, h) {
     this.name = name;
-    this.headers = headers;
-    this.headersLong = headersLong;
+    this.datapoints = datapoints;
     this.numImages = numImages;
     this.imageDir = imgDir
     this.image = img
@@ -94,10 +208,9 @@ function DataSet(name, headers, headersLong, numImages, imgDir, img, w, h) {
     this.hasSub = true;
 }
 
-function DataSetNoSub(name, headers, headersLong, numImages, imgDir, img, w, h) {
+function DataSetNoSub(name, datapoints, numImages, imgDir, img, w, h) {
     this.name = name;
-    this.headers = headers;
-    this.headersLong = headersLong;
+    this.datapoints = datapoints;
     this.numImages = numImages;
     this.imageDir = imgDir
     this.image = img
@@ -118,7 +231,7 @@ function getSubCategory(value) {
     if (value == TYPE_TALL) {
         return "T";
     }
-    if (value == TYPE_SHORT){
+    if (value == TYPE_SHORT) {
         return "S";
     }
     return "";
@@ -130,9 +243,9 @@ function table2CSV(table, dataset) {
     // header data
     var tmpRow = [];
     tmpRow[tmpRow.length] = "Frame";
-    for (var h = 0; h < dataset.headers.length; h++) {
-        tmpRow[tmpRow.length] = dataset.headers[h] + " X";
-        tmpRow[tmpRow.length] = dataset.headers[h] + " Y";
+    for (var h = 0; h < dataset.datapoints.length; h++) {
+        tmpRow[tmpRow.length] = dataset.datapoints[h][0] + " X";
+        tmpRow[tmpRow.length] = dataset.datapoints[h][0] + " Y";
     }
     row2CSV(tmpRow);
 
