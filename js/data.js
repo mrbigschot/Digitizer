@@ -7,9 +7,10 @@ var TYPE_STS = 4;
 var TYPE_BALL_TOSS = 5;
 var TYPE_JAR_DN = 6;
 var TYPE_JAR_UP = 7;
-var TYPE_JUMP_OUT = 8;
-var TYPE_JUMP_UP = 9;
-var TYPE_OBSTACLE = 10;
+var TYPE_JAR_COG = 8;
+var TYPE_JUMP_OUT = 9;
+var TYPE_JUMP_UP = 10;
+var TYPE_OBSTACLE = 11;
 
 // SUBJECT TYPES
 var TYPE_TALL = 0;
@@ -150,6 +151,22 @@ function initData() {
                 ["SHL", "Shoulder"]
             ],
             [13, 11], "JAR_UP", "RO", 500, 281
+        ),
+        new DataSet("Jar C.o.G.",
+            [
+                ["TOE", "Toe"],
+                ["HEEL", "Heel"],
+                ["ANK", "Toe"],
+                ["KNE", "Ankle"],
+                ["HIP", "Knee"],
+                ["LELB*", "Left Elbow (white and blue marker at mid-torso)"],
+                ["RELB", "Right Elbow"],
+                ["SHL", "Shoulder"],
+                ["EAR", "Ear"],
+                ["WRI", "Wrist"],
+                ["JAR", "Jar"]
+            ],
+            [1, 1], "JAR_COG", "JCOG", 240, 395
         ),
         new DataSet("Jump Out",
             [
