@@ -196,8 +196,7 @@ function initData() {
         ),
         new DataSet("Obstacle",
             [
-                ["REFBR", "Reference (bottom right)"],
-                ["REFTL", "Reference (top left)"],
+                ["REFBL", "Reference (bottom left)"],
                 ["TOE", "Toe"],
                 ["ANK", "Ankle"],
                 ["KNE", "Knee"],
@@ -205,7 +204,7 @@ function initData() {
                 ["SHL", "Shoulder"],
                 ["EAR", "Ear"]
             ],
-            [12, 13], "OBSTACLE", "SB", 500, 281
+            [15, 15], "OBSTACLE", "SB", 500, 281
         )
     ];
 }
