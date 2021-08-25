@@ -88,6 +88,32 @@ function initData() {
             ],
             1, "more", "GluteEx", 352, 235
         ),
+        new DataSetNoSub("Gymnast",
+            [
+                ["KNU", "Knuckle"],
+                ["WRI", "Wrist"],
+                ["ELB", "Elbow"],
+                ["SHL", "Shoulder"],
+                ["EAR", "Ear"],
+                ["HIP", "Hip"],
+                ["KNE", "Knee"],
+                ["ANK", "Ankle"],
+                ["TOE", "Toe"]
+            ],
+            1, "more", "Gymnast", 327, 512
+        ),
+        new DataSetNoSub("Diver",
+            [
+                ["WRI", "Wrist"],
+                ["SHL", "Shoulder"],
+                ["EAR", "Ear"],
+                ["HIP", "Hip"],
+                ["KNE", "Knee"],
+                ["ANK", "Ankle"],
+                ["TOE", "Toe"]
+            ],
+            1, "more", "Diver", 444, 336
+        ),
         new DataSetNoSub("Sit to Stand",
             [
                 ["REFL", "Reference (left)"],
