@@ -2,9 +2,14 @@ body {
     background-color: #eeeeee;
     margin: 0px 20px 0px 0px;
 }
+div { position: relative; }
 
-div {
-    position: relative;
+h1 {
+    color: #eeeeee;
+    font-size: 45px;
+    font-family: geneva, arial, sans-serif;
+    margin: 0px;
+    display: inline;
 }
 /********************** HEADER ITEMS **********************/
 
@@ -15,22 +20,13 @@ div#header {
     padding: 5px 10px 10px 10px;
     border-bottom: 4px solid #ff0000;
     display: inline-block;
-    z-index: 1;
+    z-index: 10;
+    height:20%;
 }
-
 div#headerLeft {
     padding: 10px 5px 0px 5px;
     float: left;
 }
-
-h1 {
-    color: #eeeeee;
-    font-size: 45px;
-    font-family: geneva, arial, sans-serif;
-    margin: 0px;
-    display: inline;
-}
-
 div#headerRight {
     padding: 20px 5px 5px 5px;
     float: right;
@@ -40,24 +36,20 @@ ul.menu {
     list-style-type: none;
     display: inline;
 }
-
 ul.menu li {
     display: inline-block;
 }
-
 ul.subMenu {
     list-style-type: none;
     display: block;
     padding: 0px 0px 0px 0px;
 }
-
 ul.subMenu li {
     display: block;
 }
-
 div.menuButton {
     padding: 5px 10px;
-    width: 130px;
+    width: calc(230px - 22px);
     background-color: #000000;
     border: 1px solid #ffffff;
     cursor: pointer;
@@ -71,7 +63,6 @@ div.menuButton {
 
     transition: background-color 0.25s, border 0.25s, color 0.25s;
 }
-
 div.categoryMenu.disabled div.menuButton,
 div.categoryMenu.disabled div.menuButton:hover {
     background-color: #000000;
@@ -79,22 +70,18 @@ div.categoryMenu.disabled div.menuButton:hover {
     color: #888888;
     cursor: not-allowed;
 }
-
 div.menuButton i {
     padding-top: 2px;
     float: right;
 }
-
 div.menuButton:hover,
 div.categoryMenu.open div.menuButton {
     background-color: #ff0000;
 }
-
 div.subMenuContainer {
     position: absolute;
-    width: 140px;
+    width: 230px;
 }
-
 div.subMenuItem {
     padding: 5px 10px;
     background-color: #000000;
@@ -111,46 +98,38 @@ div.subMenuItem {
 
     transition: background-color 0.25s;
 }
-
 div.subMenuItem.selected {
     color: #ffffbb;
     font-weight: bold;
 }
-
 div.subMenuItem:hover {
     background-color: #aaaaaa;
 }
-
 div.categoryMenu div.subMenuContainer {
-    width: 152px;
     max-height: 0px;
     overflow: hidden;
     transition: max-height 1s;
 }
-
 div.categoryMenu.disabled div.subMenuContainer {
     display: none;
 }
-
 div.categoryMenu.open div.subMenuContainer,
 div.subcategoryMenu.open div.subMenuContainer {
     max-height: 1000px;
     display: block;
 }
-
-div.current {
+div.currentDataset {
     padding: 15px;
     display: inline;
 }
-
 span#currentCategory {
     color: #eeeeee;
     font-size: 20px;
     font-family: geneva, arial, sans-serif;
     text-align: center;
     text-transform: uppercase;
+    margin-right: 10px;
 }
-
 span#currentSubCategory {
     color: #eeeeee;
     font-size: 14px;
@@ -189,9 +168,6 @@ p.prompt {
     width: 100px;
     text-transform: uppercase;
 }
-span#lastClick {
-    /* float:right; */
-}
 
 /********************** IMAGE ITEMS **********************/
 
@@ -200,12 +176,10 @@ div.imgContainer {
     margin-bottom: 25px;
     background-color: #222222
 }
-
 img {
     border: 1px solid #000000;
     cursor: url(images/crosshair.png) 15 15, crosshair;
 }
-
 div.imgButtons {
     display: flex;
     width: 100%;
@@ -213,7 +187,6 @@ div.imgButtons {
     bottom: 0;
     padding-bottom: 5px;
 }
-
 div.imgButtons a.button {
     flex: 1;
     background-color: #222222;
@@ -225,7 +198,6 @@ div.imgButtons a.button {
     cursor: pointer;
     padding: 2px 2px 2px 2px;
     margin: 2px 5px 2px 5px;
-    /* border-radius: 4px; */
 
     font-family: geneva, arial, sans-serif;
     text-decoration: none;
@@ -233,7 +205,6 @@ div.imgButtons a.button {
     text-transform: uppercase;
     transition: background-color 0.25s, border 0.25s;
 }
-
 div.imgButtons a.button:hover {
     background-color: #aaaaaa;
     border: 1px solid #ffffff;
@@ -259,7 +230,9 @@ div.imgButtons span {
 /********************** TABLE ITEMS **********************/
 
 div.tableContainer {
-    margin-bottom: 20px;
+    margin-bottom: 1em;
+    max-height: 30em;
+    overflow-y: auto;
 }
 
 table {
@@ -272,29 +245,37 @@ table {
     text-transform: uppercase;
     border-collapse: collapse;
 }
-
+tr {
+    height: 1.75em;
+}
 thead {
     background-color: #ff0000;
     color: #ffffff;
     font-weight: bold;
     border-collapse: collapse;
 }
-
+thead tr th {
+    background-color: #ff0000;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0px;
+    z-index: 2;
+}
+thead tr:nth-child(2) th {
+    top: 1.75em;
+}
 th, td {
     text-align: center;
     padding: 2px 2px 2px 2px;
     border: 1px solid black;
 }
-
 tbody tr td {
     background-color: #cccccc;
 }
-
 tbody tr.current td {
     background-color: #ffffff;
     transition: background-color .25s;
 }
-
 tbody tr.current td.highlight {
     background-color: #eeeeee;
     border: 2px solid #333333;

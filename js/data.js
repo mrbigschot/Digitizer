@@ -231,6 +231,38 @@ function initData() {
                 ["EAR", "Ear"]
             ],
             [15, 15], "OBSTACLE", "SB", 500, 281
+        ),
+        new DataSetNoSub("Aerial Dance Knee Drop",
+            [
+                ["EAR*", "Ear (Right)"],
+                ["SHL*", "Shoulders (one point)"],
+                ["LWRI", "Wrist (Left)"],
+                ["RWRI", "Wrist (Right)"],
+                ["RELB", "Elbow (Right)"],
+                ["LHIP", "Hip (Left)"],
+                ["RHIP", "Hip (Right)"],
+                ["LKNE", "Knee (Left)"],
+                ["RKNE", "Knee (Right)"],
+                ["LANK", "Ankle (Left)"],
+                ["RANK", "Ankle (Right)"]
+            ],
+            41, "AERIAL", "KD.F", 280, 500
+        ),
+        new DataSetNoSub("Aerial Dance Slack Drop",
+            [
+                ["EAR*", "Ear (Right)"],
+                ["LWRI", "Wrist (Left)"],
+                ["RWRI", "Wrist (Right)"],
+                ["LSHL", "Shoulder (Left)"],
+                ["RSHL", "Shoulder (Right)"],
+                ["RELB", "Elbow (Right)"],
+                ["LHIP", "Hip (Left)"],
+                ["RHIP", "Hip (Right)"],
+                ["LKNE", "Knee (Left)"],
+                ["LANK", "Ankle (Left)"],
+                ["RANK", "Ankle (Right)"]
+            ],
+            41, "AERIAL", "SD.F", 280, 500
         )
     ];
 }
