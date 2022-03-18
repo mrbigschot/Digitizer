@@ -242,7 +242,6 @@ function initData() {
                 ["LHIP", "Hip (Left)"],
                 ["RHIP", "Hip (Right)"],
                 ["LKNE", "Knee (Left)"],
-                ["RKNE", "Knee (Right)"],
                 ["LANK", "Ankle (Left)"],
                 ["RANK", "Ankle (Right)"]
             ],
@@ -255,7 +254,7 @@ function initData() {
                 ["RWRI", "Wrist (Right)"],
                 ["LSHL", "Shoulder (Left)"],
                 ["RSHL", "Shoulder (Right)"],
-                ["RELB", "Elbow (Right)"],
+                ["LELB", "Elbow (Left)"],
                 ["LHIP", "Hip (Left)"],
                 ["RHIP", "Hip (Right)"],
                 ["LKNE", "Knee (Left)"],
