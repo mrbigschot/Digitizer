@@ -10,58 +10,78 @@
         <script src="./js/scripts.js"></script>
     </head>
     <body onload="startup()">
-        <div id="header">
-            <div id="headerLeft">
+        <div class="header columnContainer">
+            <div>
                 <h1>DIGITIZER</h1>
             </div>
-            <div id="headerRight">
-                <div class="currentDataset">
-                    <span id="currentCategory">Current</span>
-                    <span id="currentSubCategory">Current</span>
+
+            <div class="columnContainer">
+                <div>
+                    <h2>Current Dataset</h2>
+                    <h3>
+                        <span id="currentCategory"></span>
+                        <span id="currentSubCategory"></span>
+                    </h3>
                 </div>
-                <ul id="menu" class="menu">
-                    <li>
-                        <div id="categoryMenu" class="categoryMenu">
-                            <div id="categoryButton" class="menuButton" onclick="toggleMenu(this)">Category <i class="fas fa-angle-down"></i></div>
-                            <div class="subMenuContainer">
-                                <ul id="categoryOptions" class="subMenu">
-                                    <li>
-                                        <div class="subMenuItem" value="" onclick="categorySelect(this)">START</div>
-                                    </li>
-                                </ul>
+
+                <div>
+                    <h2>Choose a Dataset</h2>
+                    <ul id="menu" class="menu">
+                        <li>
+                            <div id="categoryMenu" class="categoryMenu">
+                                <div id="categoryButton" class="menuButton" onclick="toggleMenu(this)">Category <i class="fas fa-angle-down"></i></div>
+                                <div class="subMenuContainer">
+                                    <ul id="categoryOptions" class="subMenu">
+                                        <li>
+                                            <div class="subMenuItem" value="" onclick="categorySelect(this)">START</div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div id="subCategoryMenu" class="categoryMenu">
-                            <div id="subjectButton" class="menuButton" onclick="toggleMenu(this)">Subject <i class="fas fa-angle-down"></i></div>
-                            <div id="subCategoryMenu" class="subMenuContainer">
-                                <ul id="subCategoryOptions" class="subMenu">
-                                    <li>
-                                        <div class="subMenuItem" value="0" onclick="subCategorySelect(this)">TALL</div>
-                                    </li>
-                                    <li>
-                                        <div class="subMenuItem" value="1" onclick="subCategorySelect(this)">SHORT</div>
-                                    </li>
-                                </ul>
+                        </li>
+                        <li>
+                            <div id="subCategoryMenu" class="categoryMenu">
+                                <div id="subjectButton" class="menuButton" onclick="toggleMenu(this)">Subject <i class="fas fa-angle-down"></i></div>
+                                <div id="subCategoryMenu" class="subMenuContainer">
+                                    <ul id="subCategoryOptions" class="subMenu">
+                                        <li>
+                                            <div class="subMenuItem" value="0" onclick="subCategorySelect(this)">TALL</div>
+                                        </li>
+                                        <li>
+                                            <div class="subMenuItem" value="1" onclick="subCategorySelect(this)">SHORT</div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div id="content">
+        <div id="content" class="columnContainer loading">
             <div class="columnLeft">
-                <div class="imgContainer">
+                <div class="imageContainer">
                     <img id="img" src="" alt="Something went wrong!" onerror="" width="500" height="500">
                 </div>
-                <div class="imgButtons">
-                    <a id="prvBtn" class="button" href="javascript:prevImage()"><i class="fas fa-angle-left"></i> PREV</a>
-                    <span><span id="currentImage">1</span> of <span id="totalImages">1</span></span>
-                    <a id="nxtBtn" class="button" href="javascript:nextImage()">NEXT <i class="fas fa-angle-right"></i></a>
+                <div class="imageControls">
+                    <a class="button" href="javascript:prevImage()"><i class="fas fa-angle-left"></i> PREV</a>
+                    <span class="currentImageSummary">
+                        <span id="currentImage">1</span> of <span id="totalImages">1</span>
+                    </span>
+                    <a class="button" href="javascript:nextImage()">NEXT <i class="fas fa-angle-right"></i></a>
                 </div>
             </div>
             <div class="columnRight">
+                <div class="tableActions">
+                    <div class="prompt">
+                        <div class="clickCoordinatesContainer">
+                            <i class="fas fa-crosshairs"></i>
+                            <span id="clickCoordinates"></span>
+                        </div>
+                        <span id="promptContent">prompt</span>
+                    </div>
+                    <button onclick="generateCSV()">Download CSV <i class="fas fa-download"></i></button>
+                </div>
                 <div class="tableContainer">
                     <table id="dataTable">
                         <thead>
@@ -128,10 +148,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="bottom">
-                    <p class="prompt"><i class="fas fa-crosshairs"></i> <span id="lastClick">(<span id="lastX">0</span>, <span id="lastY">0</span>)</span></p>
-                    <button id="download" onclick="generateCSV()">Download CSV <i class="fas fa-download"></i></button>
                 </div>
             </div>
         </div>

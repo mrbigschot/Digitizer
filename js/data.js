@@ -1,20 +1,20 @@
 // DATASET TYPES
-var TYPE_START = 0;
-var TYPE_BARBELL = 1;
-var TYPE_LIFT = 2;
-var TYPE_GLUTE_EX = 3;
-var TYPE_STS = 4;
-var TYPE_BALL_TOSS = 5;
-var TYPE_JAR_DN = 6;
-var TYPE_JAR_UP = 7;
-var TYPE_JAR_COG = 8;
-var TYPE_JUMP_OUT = 9;
-var TYPE_JUMP_UP = 10;
-var TYPE_OBSTACLE = 11;
+const TYPE_START = 0;
+const TYPE_BARBELL = 1;
+const TYPE_LIFT = 2;
+const TYPE_GLUTE_EX = 3;
+const TYPE_STS = 4;
+const TYPE_BALL_TOSS = 5;
+const TYPE_JAR_DN = 6;
+const TYPE_JAR_UP = 7;
+const TYPE_JAR_COG = 8;
+const TYPE_JUMP_OUT = 9;
+const TYPE_JUMP_UP = 10;
+const TYPE_OBSTACLE = 11;
 
 // SUBJECT TYPES
-var TYPE_TALL = 0;
-var TYPE_SHORT = 1;
+const TYPE_TALL = 0;
+const TYPE_SHORT = 1;
 
 var datasets;
 
@@ -231,38 +231,6 @@ function initData() {
                 ["EAR", "Ear"]
             ],
             [15, 15], "OBSTACLE", "SB", 500, 281
-        ),
-        new DataSetNoSub("Aerial Dance Knee Drop",
-            [
-                ["EAR*", "Ear (Right)"],
-                ["SHL*", "Shoulders (one point)"],
-                ["LWRI", "Wrist (Left)"],
-                ["RWRI", "Wrist (Right)"],
-                ["RELB", "Elbow (Right)"],
-                ["LHIP", "Hip (Left)"],
-                ["RHIP", "Hip (Right)"],
-                ["LKNE", "Knee (Left)"],
-                ["RKNE", "Knee (Right)"],
-                ["LANK", "Ankle (Left)"],
-                ["RANK", "Ankle (Right)"]
-            ],
-            41, "AERIAL", "KD.F", 280, 500
-        ),
-        new DataSetNoSub("Aerial Dance Slack Drop",
-            [
-                ["EAR*", "Ear (Right)"],
-                ["LWRI", "Wrist (Left)"],
-                ["RWRI", "Wrist (Right)"],
-                ["LSHL", "Shoulder (Left)"],
-                ["RSHL", "Shoulder (Right)"],
-                ["RELB", "Elbow (Right)"],
-                ["LHIP", "Hip (Left)"],
-                ["RHIP", "Hip (Right)"],
-                ["LKNE", "Knee (Left)"],
-                ["LANK", "Ankle (Left)"],
-                ["RANK", "Ankle (Right)"]
-            ],
-            41, "AERIAL", "SD.F", 280, 500
         )
     ];
 }
@@ -276,9 +244,7 @@ function DataSet(name, datapoints, numImages, imgDir, img, w, h) {
     this.imgWidth = w;
     this.imgHeight = h;
 
-    this.getNumberOfImages = function(sub) {
-        return this.numImages[sub];
-    };
+    this.getNumberOfImages = (sub) => this.numImages[sub];
     this.hasSub = true;
 }
 
@@ -291,84 +257,69 @@ function DataSetNoSub(name, datapoints, numImages, imgDir, img, w, h) {
     this.imgWidth = w;
     this.imgHeight = h;
 
-    this.getNumberOfImages = function() {
-        return this.numImages;
-    };
+    this.getNumberOfImages = () => this.numImages;
     this.hasSub = false;
 }
 
-function getDataSet(datasetID) {
-    return datasets[datasetID];
-}
+function getDataSet(datasetID) { return datasets[datasetID]; }
 
 function getSubCategory(value) {
-    if (value == TYPE_TALL) {
-        return "T";
+    switch (value) {
+        case TYPE_TALL:
+            return "T";
+        case TYPE_SHORT:
+            return "S";
+        default:
+            return "";
     }
-    if (value == TYPE_SHORT) {
-        return "S";
-    }
-    return "";
 }
 
 function table2CSV(table, dataset) {
-    var csvData = [];
+    let csvData = [];
 
     // header data
-    var tmpRow = [];
+    let tmpRow = [];
     tmpRow[tmpRow.length] = "Frame";
-    for (var h = 0; h < dataset.datapoints.length; h++) {
+    for (let h = 0; h < dataset.datapoints.length; h++) {
         tmpRow[tmpRow.length] = dataset.datapoints[h][0] + " X";
         tmpRow[tmpRow.length] = dataset.datapoints[h][0] + " Y";
     }
     row2CSV(tmpRow);
 
     // actual data
-    var tableBody = table.getElementsByTagName("tbody")[0];
-    var tableRows = tableBody.getElementsByTagName("tr");
-    for (var r = 0; r < tableRows.length; r++) {
-        var tableRow = tableRows[r];
-        var tmpRow = [];
-        var cells = tableRow.getElementsByTagName("td");
-        for (var c = 0; c < cells.length; c++) {
+    let tableBody = table.getElementsByTagName("tbody")[0];
+    let tableRows = tableBody.getElementsByTagName("tr");
+    for (let r = 0; r < tableRows.length; r++) {
+        let tableRow = tableRows[r];
+        let tmpRow = [];
+        let cells = tableRow.getElementsByTagName("td");
+        for (let c = 0; c < cells.length; c++) {
             tmpRow[tmpRow.length] = formatData(cells[c]);
         }
         row2CSV(tmpRow);
     }
 
-    var mydata = csvData.join('\n');
-    var filename = dataset.image + getSubCategory(currentSubCategory) + ".csv";
+    let mydata = csvData.join('\n');
+    let filename = dataset.image + getSubCategory(currentSubCategory) + ".csv";
     download(mydata, filename);
 
     function row2CSV(tmpRow) {
-        var tmp = tmpRow.join('') // to remove any blank rows
+        let tmp = tmpRow.join('') // to remove any blank rows
         if (tmpRow.length > 0 && tmp) {
-            var mystr = tmpRow.join(',');
+            let mystr = tmpRow.join(',');
             csvData[csvData.length] = mystr;
         }
     }
 
     function formatData(cell) {
-        var output = cell.innerText;
+        let output = cell.innerText;
         if (!output) return '';
         return output.trim();
     }
 
-    function popup(data) {
-        var generator = window.open('', 'csv', 'height=400,width=600');
-        generator.document.write('<html><head><title>CSV</title>');
-        generator.document.write('</head><body >');
-        generator.document.write('<textArea cols=70 rows=15 wrap="off" >');
-        generator.document.write(data);
-        generator.document.write('</textArea>');
-        generator.document.write('</body></html>');
-        generator.document.close();
-        return true;
-    }
-
     function download(data, filename) {
-        var blob = new Blob([data], {type: "text/csv"});
-        var a = document.createElement('a');
+        let blob = new Blob([data], {type: "text/csv"});
+        let a = document.createElement('a');
         a.setAttribute("href", window.URL.createObjectURL(blob));
         a.setAttribute("download", filename);
         document.body.appendChild(a);

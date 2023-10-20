@@ -1,43 +1,56 @@
 var currentDataSet;
 var currentSubCategory;
 var currentImage = 0;
-var lastClick = [0, 0];
+var lastClick = {
+    x: null,
+    y: null
+};
+function setLastClickPosition(x, y) {
+    lastClick.x = x;
+    lastClick.y = y;
+    if (lastClick.x && lastClick.y) {
+        document.getElementById("clickCoordinates").innerHTML = "(" + lastClick.x + ", " + lastClick.y + ")";
+        document.getElementById("promptContent").innerHTML = "Click a table cell to transfer coordinates";
+    } else {
+        document.getElementById("clickCoordinates").innerHTML = "( , )";
+        document.getElementById("promptContent").innerHTML = "Click on the image to get coordinates";
+    }
+}
+function resetClickCoordinates() {
+    setLastClickPosition(null, null);
+}
 
 function startup() {
     initData();
     initMenus();
     selectFirstCategoryOption();
-    changeImage();
-    document.addEventListener("click", function(event) {
-        closeMenus(event);
-    });
-    document.getElementById("img").addEventListener("mousedown", imgClick);
+    document.addEventListener("click", function(event) {  closeMenus(event); });
+    document.getElementById("img").addEventListener("mousedown", imageClicked);
 }
 
 function initMenus() {
-    var optionsContainer = document.getElementById("categoryOptions");
-    var optionTemplate = optionsContainer.getElementsByTagName("li")[0];
+    let optionsContainer = document.getElementById("categoryOptions");
+    let optionTemplate = optionsContainer.getElementsByTagName("li")[0];
     optionsContainer.innerHTML = "";
-    for (var i = 0; i < datasets.length; i++) {
-        var option = datasets[i];
-        var newOption = optionTemplate.cloneNode(true);
-        var child = newOption.firstElementChild;
-        child.setAttribute("value", i);
+    for (let ii = 0; ii < datasets.length; ii++) {
+        let option = datasets[ii];
+        let newOption = optionTemplate.cloneNode(true);
+        let child = newOption.firstElementChild;
+        child.setAttribute("value", ii);
         child.innerHTML = option.name;
         optionsContainer.appendChild(newOption);
     }
 }
 
 function selectFirstCategoryOption() {
-    var options = document.getElementById("categoryOptions");
-    var firstOpt = options.getElementsByClassName("subMenuItem")[0];
+    let options = document.getElementById("categoryOptions");
+    let firstOpt = options.getElementsByClassName("subMenuItem")[0];
     categorySelect(firstOpt);
 }
-
 function selectFirstSubCategoryOption() {
     if (currentDataSet.hasSub) {
-        var options = document.getElementById("subCategoryOptions");
-        var firstOpt = options.getElementsByClassName("subMenuItem")[0];
+        let options = document.getElementById("subCategoryOptions");
+        let firstOpt = options.getElementsByClassName("subMenuItem")[0];
         subCategorySelect(firstOpt);
     } else {
         currentSubCategory = -1;
@@ -45,27 +58,45 @@ function selectFirstSubCategoryOption() {
 }
 
 function toggleMenu(button) {
-    var parent = button.parentElement;
+    let parent = button.parentElement;
     if (hasClass(parent, "disabled")) {
         parent.classList.remove("open");
-        return;
+    } else {
+        parent.classList.toggle("open");
     }
-    parent.classList.toggle("open");
 }
 
+function startLoading(loadFunction) {
+    document.getElementById("content").classList.add("loading");
+    setTimeout(
+        function () {
+            loadFunction.call();
+            endLoading();
+        },
+        500
+    );
+}
+function endLoading() { document.getElementById("content").classList.remove("loading"); }
 function categorySelect(choice) {
-    currentDataSet = getDataSet(choice.getAttribute("value"));
-    toggleSelected(document.getElementById("categoryOptions"), choice);
-    selectFirstSubCategoryOption();
-    updateCategoryDisplay();
+    startLoading(function () {
+        currentDataSet = getDataSet(choice.getAttribute("value"));
+        toggleSelected(document.getElementById("categoryOptions"), choice);
+        selectFirstSubCategoryOption();
+        changeCategorySelection();
+    });
 }
-
 function subCategorySelect(choice) {
-    currentSubCategory = choice.getAttribute("value");
+    currentSubCategory = parseInt(choice.getAttribute("value"));
     toggleSelected(document.getElementById("subCategoryMenu"), choice);
-    updateCategoryDisplay();
+    changeCategorySelection();
 }
 
+function changeCategorySelection() {
+    currentImage = 1;
+    updateImage();
+    initTable();
+    updateCategoryDisplay();
+}
 function updateCategoryDisplay() {
     document.getElementById("currentCategory").innerHTML = currentDataSet.name;
     if (currentDataSet.hasSub) {
@@ -80,15 +111,12 @@ function updateCategoryDisplay() {
         document.getElementById("subCategoryMenu").classList.add("disabled");
         document.getElementById("subCategoryMenu").classList.remove("open");
     }
-    currentImage = 1;
-    changeImage();
-    initTable();
 }
 
 function toggleSelected(menu, choice) {
-    var options = menu.getElementsByClassName("subMenuItem");
-    for (var i = 0; i < options.length; i++) {
-        var option = options[i];
+    let options = menu.getElementsByClassName("subMenuItem");
+    for (let ii = 0; ii < options.length; ii++) {
+        let option = options[ii];
         option.classList.remove("selected");
     }
     choice.classList.add("selected");
@@ -98,54 +126,59 @@ function hasClass(elem, classname) {
     return elem.classList.contains(classname);
 }
 
+
 function initTable() {
-    var table = document.getElementById("dataTable");
+    let table = document.getElementById("dataTable");
     table.innerHTML = "";
-    var thead = document.createElement("thead")
-    var tbody = document.createElement("tbody");
-    var tr;
-    var th;
-    var td;
-    var headRow1 = document.createElement("tr");
-    var headRow2 = document.createElement("tr");
-    th = document.createElement("th");
-    th.setAttribute("rowspan", "2");
-    th.innerHTML = "Frame";
-    headRow1.appendChild(th);
-    for (var i = 0; i < currentDataSet.datapoints.length; i++) {
-        th = document.createElement("th");
-        th.setAttribute("colspan", "2");
-        th.innerHTML = currentDataSet.datapoints[i][0];
-        th.setAttribute("title", currentDataSet.datapoints[i][1]);
-        headRow1.appendChild(th);
-        th = document.createElement("th");
-        th.innerHTML = "x";
-        headRow2.appendChild(th);
-        th = document.createElement("th");
-        th.innerHTML = "y";
-        headRow2.appendChild(th);
+    table.appendChild(initTableHeader(table));
+    table.appendChild(initTableBody(table));
+}
+function initTableHeader(table) {
+    let thead = document.createElement("thead")
+    let headRow1 = document.createElement("tr");
+    headRow1.classList.add("headerRow1");
+    let headRow2 = document.createElement("tr");
+    headRow2.classList.add("headerRow2");
+
+    headRow1.appendChild(createTableHeaderCell(null, "2", "Frame", null));
+    for (let ii = 0; ii < currentDataSet.datapoints.length; ii++) {
+        headRow1.appendChild(createTableHeaderCell("2", null, currentDataSet.datapoints[ii][0], currentDataSet.datapoints[ii][1]));
+        headRow2.appendChild(createTableHeaderCell(null, null, "x"));
+        headRow2.appendChild(createTableHeaderCell(null, null, "y"));
     }
     thead.appendChild(headRow1);
     thead.appendChild(headRow2);
-    for (var i = 0; i < currentDataSet.getNumberOfImages(currentSubCategory); i++) {
+
+    return thead;
+}
+function createTableHeaderCell(colSpan, rowSpan, value, title) {
+    let th = document.createElement("th");
+    if (colSpan) th.setAttribute("colspan", colSpan);
+    if (rowSpan) th.setAttribute("rowspan", rowSpan);
+    th.innerHTML = value;
+    if (title) th.setAttribute("title", title);
+    return th;
+}
+function initTableBody(table) {
+    let tbody = document.createElement("tbody");
+    let tr, td;
+    for (let ii = 0; ii < currentDataSet.getNumberOfImages(currentSubCategory); ii++) {
         tr = document.createElement("tr");
-        if (i == 0) {
-            tr.classList.add("current");
-        }
+        if (ii == 0) { tr.classList.add("current"); }
         td = document.createElement("td");
-        td.innerHTML = "" + (i + 1);
+        td.innerHTML = "" + (ii + 1);
         tr.appendChild(td);
-        for (var j = 0; j < currentDataSet.datapoints.length; j++) {
+        for (let jj = 0; jj < currentDataSet.datapoints.length; jj++) {
             td = document.createElement("td");
-            td.setAttribute("row", "" + i);
-            td.setAttribute("col", "" + j);
+            td.setAttribute("row", "" + ii);
+            td.setAttribute("col", "" + jj);
             td.onmouseover = function() { tableHover(this); };
             td.onmouseleave = function() { tableLeave(this); };
             td.onclick = function() { tableClick(this); };
             tr.appendChild(td);
             td = document.createElement("td");
-            td.setAttribute("row", "" + i);
-            td.setAttribute("col", "" + j);
+            td.setAttribute("row", "" + ii);
+            td.setAttribute("col", "" + jj);
             td.onmouseover = function() { tableHover(this); };
             td.onmouseleave = function() { tableLeave(this); };
             td.onclick = function() { tableClick(this); };
@@ -153,106 +186,95 @@ function initTable() {
         }
         tbody.appendChild(tr);
     }
-    table.appendChild(thead);
-    table.appendChild(tbody);
+    return tbody;
 }
-
 function tableHover(cell) {
-    var row = parseInt(cell.getAttribute("row"));
-    var col = 1 + 2 * parseInt(cell.getAttribute("col"));
-    var table = document.getElementById("dataTable");
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.rows[row].cells[col].classList.add("highlight");
-    tbody.rows[row].cells[col + 1].classList.add("highlight");
+    let row = getCellRow(cell);
+    let xColumnIndex = getRealCellColumn(cell);
+    let table = document.getElementById("dataTable");
+    let tbody = table.getElementsByTagName("tbody")[0];
+    tbody.rows[row].cells[xColumnIndex].classList.add("highlight");
+    tbody.rows[row].cells[xColumnIndex + 1].classList.add("highlight");
 }
-
-function tableLeave(cell) {
-    var row = parseInt(cell.getAttribute("row"));
-    var col = 1 + 2 * parseInt(cell.getAttribute("col"));
-    var table = document.getElementById("dataTable");
-    var tbody = table.getElementsByTagName("tbody")[0];
-    tbody.rows[row].cells[col].classList.remove("highlight");
-    tbody.rows[row].cells[col + 1].classList.remove("highlight");
-}
-
 function tableClick(cell) {
-    var row = parseInt(cell.getAttribute("row"));
-    var col = 1 + 2 * parseInt(cell.getAttribute("col"));
-    if (lastClick[0] && lastClick[1]) {
+    let row = getCellRow(cell);
+    let col = getRealCellColumn(cell);
+    if (lastClick.x && lastClick.y) {
         if ((row + 1) == currentImage) {
-            var table = document.getElementById("dataTable");
-            var tbody = table.getElementsByTagName("tbody")[0];
-            tbody.rows[row].cells[col].innerHTML = lastClick[0];
-            tbody.rows[row].cells[col + 1].innerHTML = lastClick[1];
+            let table = document.getElementById("dataTable");
+            let tbody = table.getElementsByTagName("tbody")[0];
+            tbody.rows[row].cells[col].innerHTML = lastClick.x;
+            tbody.rows[row].cells[col + 1].innerHTML = lastClick.y;
         }
     }
 }
+function tableLeave(cell) {
+    let row = getCellRow(cell);
+    let xColumnIndex = getRealCellColumn(cell);
+    let table = document.getElementById("dataTable");
+    let tbody = table.getElementsByTagName("tbody")[0];
+    tbody.rows[row].cells[xColumnIndex].classList.remove("highlight");
+    tbody.rows[row].cells[xColumnIndex + 1].classList.remove("highlight");
+}
+function getCellRow(cell) { return parseInt(cell.getAttribute("row")); }
+function getCellColumn(cell) { return parseInt(cell.getAttribute("col")); }
+function getRealCellColumn(cell) { return 1 + 2 * getCellColumn(cell); }
 
 function closeMenus(event) {
-    var targetElement = event.target;
-    var menu = document.getElementById("menu");
+    let targetElement = event.target;
+    let menu = document.getElementById("menu");
     do {
-        if (targetElement == menu) {
-            return;
-        }
+        if (targetElement == menu) { return; }
         targetElement = targetElement.parentNode;
     } while (targetElement);
 
-    var categoryMenu = document.getElementById("categoryMenu");
-    var subCategoryMenu = document.getElementById("subCategoryMenu");
+    let categoryMenu = document.getElementById("categoryMenu");
+    let subCategoryMenu = document.getElementById("subCategoryMenu");
     categoryMenu.classList.remove("open");
     subCategoryMenu.classList.remove("open");
 }
 
-function changeImage() {
-    var img = document.getElementById("img");
-    var source = "./images/" + currentDataSet.imageDir + "/" + getSubCategory(currentSubCategory) + currentDataSet.image;
-    if (currentDataSet.getNumberOfImages(currentSubCategory) > 1) {
-        source += "" + currentImage;
-    }
+function updateImage() {
+    let img = document.getElementById("img");
+    let source = "./images/" + currentDataSet.imageDir + "/" + getSubCategory(currentSubCategory) + currentDataSet.image;
+    if (currentDataSet.getNumberOfImages(currentSubCategory) > 1) { source += "" + currentImage; }
     source += ".jpg";
     img.src = source;
     img.setAttribute("width", currentDataSet.imgWidth);
     img.setAttribute("height", currentDataSet.imgHeight);
-    var tbody = document.getElementsByTagName("tbody")[0];
-    var rows = tbody.getElementsByTagName("tr");
-    for (var i = 0; i < rows.length; i++) {
-        rows[i].classList.remove("current");
-        if ((i + 1) == currentImage) {
-            rows[i].classList.add("current");
+    let tbody = document.getElementsByTagName("tbody")[0];
+    let rows = tbody.getElementsByTagName("tr");
+    for (let ii = 0; ii < rows.length; ii++) {
+        rows[ii].classList.remove("current");
+        if ((ii + 1) == currentImage) {
+            rows[ii].classList.add("current");
         }
     }
     document.getElementById("currentImage").innerHTML = currentImage;
     document.getElementById("totalImages").innerHTML = currentDataSet.getNumberOfImages(currentSubCategory);
+    resetClickCoordinates();
 }
-
 function nextImage() {
     if (currentImage < currentDataSet.getNumberOfImages(currentSubCategory)) {
         currentImage++;
     } else {
         currentImage = 1;
     }
-    changeImage();
+    updateImage();
 }
-
 function prevImage() {
     if (currentImage > 1) {
         currentImage--;
     } else {
         currentImage = currentDataSet.getNumberOfImages(currentSubCategory);
     }
-    changeImage();
+    updateImage();
 }
 
-function imgClick(evt) {
-    var img = document.getElementById("img");
-    var rect = img.getBoundingClientRect();
-    lastClick[0] = Math.round(evt.clientX - rect.left);
-    lastClick[1] = Math.round(rect.bottom - evt.clientY);
-    document.getElementById("lastX").innerHTML = lastClick[0];
-    document.getElementById("lastY").innerHTML = lastClick[1];
+function imageClicked(evt) {
+    let img = document.getElementById("img");
+    let rect = img.getBoundingClientRect();
+    setLastClickPosition(Math.round(evt.clientX - rect.left), Math.round(rect.bottom - evt.clientY));
 }
 
-function generateCSV() {
-    table2CSV(document.getElementById("dataTable"), currentDataSet);
-}
+function generateCSV() { table2CSV(document.getElementById("dataTable"), currentDataSet); }
