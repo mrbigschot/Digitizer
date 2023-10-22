@@ -51,7 +51,8 @@ function selectFirstSubCategoryOption() {
     if (currentDataSet.hasSub) {
         let options = document.getElementById("subCategoryOptions");
         let firstOpt = options.getElementsByClassName("subMenuItem")[0];
-        subCategorySelect(firstOpt);
+        currentSubCategory = parseInt(firstOpt.getAttribute("value"));
+        toggleSelected(document.getElementById("subCategoryMenu"), firstOpt);
     } else {
         currentSubCategory = -1;
     }
@@ -66,29 +67,47 @@ function toggleMenu(button) {
     }
 }
 
-function startLoading(loadFunction) {
-    document.getElementById("content").classList.add("loading");
-    setTimeout(
-        function () {
-            loadFunction.call();
-            endLoading();
-        },
-        500
-    );
+function delayFunction(func) { setTimeout(func, 400); }
+function startLoading() {
+    return new Promise((resolve) => {
+        document.getElementById("content").classList.add("loading");
+        resolve();
+    });
 }
-function endLoading() { document.getElementById("content").classList.remove("loading"); }
+function doLoading(loadFunction) {
+    return new Promise((resolve) => {
+        delayFunction(() => {
+            loadFunction.call();
+            resolve();
+        });
+    });
+}
+function endLoading() {
+    return new Promise((resolve) => {
+        delayFunction(() => {
+            document.getElementById("content").classList.remove("loading");
+            resolve();
+        });
+    });
+}
 function categorySelect(choice) {
-    startLoading(function () {
+    startLoading()
+    .then(doLoading(() => {
         currentDataSet = getDataSet(choice.getAttribute("value"));
         toggleSelected(document.getElementById("categoryOptions"), choice);
         selectFirstSubCategoryOption();
         changeCategorySelection();
-    });
+    }))
+    .then(endLoading());
 }
 function subCategorySelect(choice) {
-    currentSubCategory = parseInt(choice.getAttribute("value"));
-    toggleSelected(document.getElementById("subCategoryMenu"), choice);
-    changeCategorySelection();
+    startLoading()
+    .then(doLoading(() => {
+        currentSubCategory = parseInt(choice.getAttribute("value"));
+        toggleSelected(document.getElementById("subCategoryMenu"), choice);
+        changeCategorySelection();
+    }))
+    .then(endLoading());
 }
 
 function changeCategorySelection() {
@@ -101,9 +120,9 @@ function updateCategoryDisplay() {
     document.getElementById("currentCategory").innerHTML = currentDataSet.name;
     if (currentDataSet.hasSub) {
         if (currentSubCategory == TYPE_TALL) {
-            document.getElementById("currentSubCategory").innerHTML = "Tall";
+            document.getElementById("currentSubCategory").innerHTML = "Maxi";
         } else {
-            document.getElementById("currentSubCategory").innerHTML = "Short";
+            document.getElementById("currentSubCategory").innerHTML = "Mini";
         }
         document.getElementById("subCategoryMenu").classList.remove("disabled");
     } else {
@@ -125,7 +144,6 @@ function toggleSelected(menu, choice) {
 function hasClass(elem, classname) {
     return elem.classList.contains(classname);
 }
-
 
 function initTable() {
     let table = document.getElementById("dataTable");

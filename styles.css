@@ -159,7 +159,7 @@ div#content {
     width: 100%;
     padding: 5px 5px 5px 5px;
     display: flex;
-    transition: opacity 0.5s;
+    transition: opacity 0.25s;
 }
 div#content.loading { opacity: 0; }
 
