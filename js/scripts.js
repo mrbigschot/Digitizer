@@ -67,47 +67,43 @@ function toggleMenu(button) {
     }
 }
 
-function delayFunction(func) { setTimeout(func, 400); }
+function delayFunction(func, time=500) { setTimeout(func, time); }
 function startLoading() {
     return new Promise((resolve) => {
         document.getElementById("content").classList.add("loading");
-        resolve();
+        delayFunction(() => { resolve(); }, 300);
     });
 }
 function doLoading(loadFunction) {
     return new Promise((resolve) => {
-        delayFunction(() => {
-            loadFunction.call();
-            resolve();
-        });
+        loadFunction.call();
+        delayFunction(() => { resolve(); });
     });
 }
 function endLoading() {
     return new Promise((resolve) => {
-        delayFunction(() => {
-            document.getElementById("content").classList.remove("loading");
-            resolve();
-        });
+        document.getElementById("content").classList.remove("loading");
+        delayFunction(() => { resolve(); }, 300);
     });
 }
-function categorySelect(choice) {
-    startLoading()
-    .then(doLoading(() => {
+async function categorySelect(choice) {
+    await startLoading();
+    await doLoading(() => {
         currentDataSet = getDataSet(choice.getAttribute("value"));
         toggleSelected(document.getElementById("categoryOptions"), choice);
         selectFirstSubCategoryOption();
         changeCategorySelection();
-    }))
-    .then(endLoading());
+    });
+    await endLoading();
 }
-function subCategorySelect(choice) {
-    startLoading()
-    .then(doLoading(() => {
+async function subCategorySelect(choice) {
+    await startLoading()
+    await doLoading(() => {
         currentSubCategory = parseInt(choice.getAttribute("value"));
         toggleSelected(document.getElementById("subCategoryMenu"), choice);
         changeCategorySelection();
-    }))
-    .then(endLoading());
+    });
+    await endLoading();
 }
 
 function changeCategorySelection() {
