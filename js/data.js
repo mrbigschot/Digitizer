@@ -13,16 +13,15 @@ const TYPE_JUMP_UP = 10;
 const TYPE_OBSTACLE = 11;
 
 // SUBJECT TYPES
-const TYPE_TALL = 0;
-const TYPE_SHORT = 1;
+const SUBCAT_MAXI = 0;
+const SUBCAT_MINI = 1;
+const SUBCAT_NONE = 2;
 
-var datasets;
-
-function initData() {
-    datasets = [
-        new DataSetNoSub("Sprint Start",
-            [
-                ["LTOE", "Left Toe"],
+class DigitizerData {
+    constructor() {
+        this.datasets = [
+            new DatasetNoSub("Sprint Start",
+                [["LTOE", "Left Toe"],
                 ["RTOE", "Right Toe"],
                 ["LANK", "Left Ankle"],
                 ["RANK", "Right Ankle"],
@@ -36,13 +35,11 @@ function initData() {
                 ["RELB", "Right Elbow"],
                 ["LWRI", "Left Wrist"],
                 ["RWRI", "Right Wrist"],
-                ["EAR", "Ear"]
-            ],
-            1, "more", "Sprinter", 290, 356
-        ),
-        new DataSetNoSub("Barbell Lift",
-            [
-                ["REF", "Reference"],
+                ["EAR", "Ear"]],
+                1, "more", "Sprinter", 290, 356
+            ),
+            new DatasetNoSub("Barbell Lift",
+                [["REF", "Reference"],
                 ["HEEL", "Heel"],
                 ["TOE", "Toe"],
                 ["ANK", "Ankle"],
@@ -50,13 +47,11 @@ function initData() {
                 ["HIP", "Hip"],
                 ["SHL", "Shoulder"],
                 ["EAR", "Ear"],
-                ["BAR", "Bar"]
-            ],
-            1, "more", "OlympicLift", 169, 405
-        ),
-        new DataSetNoSub("Box Lift",
-            [
-                ["TOE", "Toe"],
+                ["BAR", "Bar"]],
+                1, "more", "OlympicLift", 169, 405
+            ),
+            new DatasetNoSub("Box Lift",
+                [["TOE", "Toe"],
                 ["MFT", "Midfoot"],
                 ["HEEL", "Heel"],
                 ["ANK", "Ankle"],
@@ -66,13 +61,11 @@ function initData() {
                 ["WRI", "Wrist"],
                 ["EAR", "Ear"],
                 ["BOX UL", "Box (upper left)"], 
-                ["BOX BR", "Box (bottom right)"]
-            ],
-            1, "more", "BoxLift", 224, 315
-        ),
-        new DataSetNoSub("Glute Exercise",
-            [
-                ["LTOE", "Left Toe"],
+                ["BOX BR", "Box (bottom right)"]],
+                1, "more", "BoxLift", 224, 315
+            ),
+            new DatasetNoSub("Glute Exercise",
+                [["LTOE", "Left Toe"],
                 ["LANK", "Left Ankle"],
                 ["LWGT", "Left Weight"],
                 ["LKNE", "Right Weight"],
@@ -84,13 +77,11 @@ function initData() {
                 ["SHL", "Shouler"],
                 ["ELB", "Elbow"],
                 ["WRI", "Wrist"],
-                ["EAR", "Ear"]
-            ],
-            1, "more", "GluteEx", 352, 235
-        ),
-        new DataSetNoSub("Gymnast",
-            [
-                ["KNU", "Knuckle"],
+                ["EAR", "Ear"]],
+                1, "more", "GluteEx", 352, 235
+            ),
+            new DatasetNoSub("Gymnast",
+                [["KNU", "Knuckle"],
                 ["WRI", "Wrist"],
                 ["ELB", "Elbow"],
                 ["SHL", "Shoulder"],
@@ -98,25 +89,21 @@ function initData() {
                 ["HIP", "Hip"],
                 ["KNE", "Knee"],
                 ["ANK", "Ankle"],
-                ["TOE", "Toe"]
-            ],
-            1, "more", "Gymnast", 327, 512
-        ),
-        new DataSetNoSub("Diver",
-            [
-                ["WRI", "Wrist"],
+                ["TOE", "Toe"]],
+                1, "more", "Gymnast", 327, 512
+            ),
+            new DatasetNoSub("Diver",
+                [["WRI", "Wrist"],
                 ["SHL", "Shoulder"],
                 ["EAR", "Ear"],
                 ["HIP", "Hip"],
                 ["KNE", "Knee"],
                 ["ANK", "Ankle"],
-                ["TOE", "Toe"]
-            ],
-            1, "more", "Diver", 444, 336
-        ),
-        new DataSetNoSub("Sit to Stand",
-            [
-                ["REFL", "Reference (left)"],
+                ["TOE", "Toe"]],
+                1, "more", "Diver", 444, 336
+            ),
+            new DatasetNoSub("Sit to Stand",
+                [["REFL", "Reference (left)"],
                 ["REFR", "Reference (right)"],
                 ["TOE", "Toe"],
                 ["HEEL", "Heel"],
@@ -126,13 +113,11 @@ function initData() {
                 ["SHL", "Shoulder"],
                 ["ELB", "Elbow"],
                 ["WRI", "Wrist"],
-                ["EAR", "Ear"]
-            ],
-            3, "STS", "STS", 336, 472
-        ),
-        new DataSet("Ball Toss",
-            [
-                ["REFBR", "Reference (bottom right)"],
+                ["EAR", "Ear"]],
+                3, "STS", "STS", 336, 472
+            ),
+            new Dataset("Ball Toss",
+                [["REFBR", "Reference (bottom right)"],
                 ["REFTL", "Reference (top left)"],
                 ["EAR", "Ear"],
                 ["HIP", "Hip"],
@@ -142,13 +127,11 @@ function initData() {
                 ["BALL", "Ball"],
                 ["WRI", "Wrist"],
                 ["ELB", "Elbow"],
-                ["SHL", "Shoulder"]
-            ],
-            [16, 14], "BALL_TOSS", "BT", 500, 281
-        ),
-        new DataSet("Jar Down",
-            [
-                ["REFBR", "Reference (bottom right)"],
+                ["SHL", "Shoulder"]],
+                [16, 14], "BALL_TOSS", "BT", 500, 281
+            ),
+            new Dataset("Jar Down",
+                [["REFBR", "Reference (bottom right)"],
                 ["REFTL", "Reference (top left)"],
                 ["EAR", "Ear"],
                 ["HIP", "Hip"],
@@ -158,13 +141,11 @@ function initData() {
                 ["JAR", "Jar"],
                 ["WRI", "Wrist"],
                 ["ELB", "Elbow"],
-                ["SHL", "Shoulder"]
-            ],
-            [11, 12], "JAR_DN", "LO", 500, 281
-        ),
-        new DataSet("Jar Up",
-            [
-                ["REFBR", "Reference (bottom right)"],
+                ["SHL", "Shoulder"]],
+                [11, 12], "JAR_DN", "LO", 500, 281
+            ),
+            new Dataset("Jar Up",
+                [["REFBR", "Reference (bottom right)"],
                 ["REFTL", "Reference (top left)"],
                 ["EAR", "Ear"],
                 ["HIP", "Hip"],
@@ -174,13 +155,11 @@ function initData() {
                 ["JAR", "Jar"],
                 ["WRI", "Wrist"],
                 ["ELB", "Elbow"],
-                ["SHL", "Shoulder"]
-            ],
-            [13, 11], "JAR_UP", "RO", 500, 281
-        ),
-        new DataSet("Jar C.o.G.",
-            [
-                ["TOE", "Toe"],
+                ["SHL", "Shoulder"]],
+                [13, 11], "JAR_UP", "RO", 500, 281
+            ),
+            new Dataset("Jar C.o.G.",
+                [["TOE", "Toe"],
                 ["HEEL", "Heel"],
                 ["ANK", "Toe"],
                 ["KNE", "Ankle"],
@@ -190,140 +169,138 @@ function initData() {
                 ["SHL", "Shoulder"],
                 ["EAR", "Ear"],
                 ["WRI", "Wrist"],
-                ["JAR", "Jar"]
-            ],
-            [1, 1], "JAR_COG", "JCOG", 240, 395
-        ),
-        new DataSet("Jump Out",
-            [
-                ["REFBR", "Reference (bottom right)"],
+                ["JAR", "Jar"]],
+                [1, 1], "JAR_COG", "JCOG", 240, 395
+            ),
+            new Dataset("Jump Out",
+                [["REFBR", "Reference (bottom right)"],
                 ["REFTL", "Reference (top left)"],
                 ["TOE", "Toe"],
                 ["ANK", "Ankle"],
                 ["KNE", "Knee"],
                 ["HIP", "Hip"],
                 ["SHL", "Shoulder"],
-                ["EAR", "Ear"]
-            ],
-            [20, 20], "JUMP_OUT", "HJ", 500, 281
-        ),
-        new DataSet("Jump Up",
-            [
-                ["REFBR", "Reference (bottom right)"],
+                ["EAR", "Ear"]],
+                [20, 20], "JUMP_OUT", "HJ", 500, 281
+            ),
+            new Dataset("Jump Up",
+                [["REFBR", "Reference (bottom right)"],
                 ["REFTL", "Reference (top left)"],
                 ["TOE", "Toe"],
                 ["ANK", "Ankle"],
                 ["KNE", "Knee"],
                 ["HIP", "Hip"],
                 ["SHL", "Shoulder"],
-                ["EAR", "Ear"]
-            ],
-            [15, 18], "JUMP_UP", "VJ", 500, 281
-        ),
-        new DataSet("Obstacle",
-            [
-                ["REFBL", "Reference (bottom left)"],
+                ["EAR", "Ear"]],
+                [15, 18], "JUMP_UP", "VJ", 500, 281
+            ),
+            new Dataset("Obstacle",
+                [["REFBL", "Reference (bottom left)"],
                 ["TOE", "Toe"],
                 ["ANK", "Ankle"],
                 ["KNE", "Knee"],
                 ["HIP", "Hip"],
                 ["SHL", "Shoulder"],
-                ["EAR", "Ear"]
-            ],
-            [15, 15], "OBSTACLE", "SB", 500, 281
-        )
-    ];
-}
-
-function DataSet(name, datapoints, numImages, imgDir, img, w, h) {
-    this.name = name;
-    this.datapoints = datapoints;
-    this.numImages = numImages;
-    this.imageDir = imgDir
-    this.image = img
-    this.imgWidth = w;
-    this.imgHeight = h;
-
-    this.getNumberOfImages = (sub) => this.numImages[sub];
-    this.hasSub = true;
-}
-
-function DataSetNoSub(name, datapoints, numImages, imgDir, img, w, h) {
-    this.name = name;
-    this.datapoints = datapoints;
-    this.numImages = numImages;
-    this.imageDir = imgDir
-    this.image = img
-    this.imgWidth = w;
-    this.imgHeight = h;
-
-    this.getNumberOfImages = () => this.numImages;
-    this.hasSub = false;
-}
-
-function getDataSet(datasetID) { return datasets[datasetID]; }
-
-function getSubCategory(value) {
-    switch (value) {
-        case TYPE_TALL:
-            return "T";
-        case TYPE_SHORT:
-            return "S";
-        default:
-            return "";
+                ["EAR", "Ear"]],
+                [15, 15], "OBSTACLE", "SB", 500, 281
+            )
+        ];
     }
-}
 
-function table2CSV(table, dataset) {
-    let csvData = [];
+    getDataset(datasetId) { return this.datasets[datasetId]; } 
 
-    // header data
-    let tmpRow = [];
-    tmpRow[tmpRow.length] = "Frame";
-    for (let h = 0; h < dataset.datapoints.length; h++) {
-        tmpRow[tmpRow.length] = dataset.datapoints[h][0] + " X";
-        tmpRow[tmpRow.length] = dataset.datapoints[h][0] + " Y";
+    getSubCategoryPrefix(value) {
+        switch (value) {
+            case SUBCAT_MAXI:
+                return "T";
+            case SUBCAT_MINI:
+                return "S";
+            case SUBCAT_NONE:
+                return "";
+            default:
+                return null;
+        }
     }
-    row2CSV(tmpRow);
 
-    // actual data
-    let tableBody = table.getElementsByTagName("tbody")[0];
-    let tableRows = tableBody.getElementsByTagName("tr");
-    for (let r = 0; r < tableRows.length; r++) {
-        let tableRow = tableRows[r];
+    table2CSV(table, dataset) {
+        let csvData = [];
+
+        // header data
         let tmpRow = [];
-        let cells = tableRow.getElementsByTagName("td");
-        for (let c = 0; c < cells.length; c++) {
-            tmpRow[tmpRow.length] = formatData(cells[c]);
+        tmpRow[tmpRow.length] = "Frame";
+        for (let h = 0; h < dataset.datapoints.length; h++) {
+            tmpRow[tmpRow.length] = dataset.datapoints[h][0] + " X";
+            tmpRow[tmpRow.length] = dataset.datapoints[h][0] + " Y";
         }
         row2CSV(tmpRow);
-    }
 
-    let mydata = csvData.join('\n');
-    let filename = dataset.image + getSubCategory(currentSubCategory) + ".csv";
-    download(mydata, filename);
+        // actual data
+        let tableBody = table.getElementsByTagName("tbody")[0];
+        let tableRows = tableBody.getElementsByTagName("tr");
+        for (let r = 0; r < tableRows.length; r++) {
+            let tableRow = tableRows[r];
+            let tmpRow = [];
+            let cells = tableRow.getElementsByTagName("td");
+            for (let c = 0; c < cells.length; c++) {
+                tmpRow[tmpRow.length] = formatData(cells[c]);
+            }
+            row2CSV(tmpRow);
+        }
 
-    function row2CSV(tmpRow) {
-        let tmp = tmpRow.join('') // to remove any blank rows
-        if (tmpRow.length > 0 && tmp) {
-            let mystr = tmpRow.join(',');
-            csvData[csvData.length] = mystr;
+        let mydata = csvData.join('\n');
+        let filename = dataset.image + getSubCategory(currentSubCategory) + ".csv";
+        download(mydata, filename);
+
+        function row2CSV(tmpRow) {
+            let tmp = tmpRow.join('') // to remove any blank rows
+            if (tmpRow.length > 0 && tmp) {
+                let mystr = tmpRow.join(',');
+                csvData[csvData.length] = mystr;
+            }
+        }
+
+        function formatData(cell) {
+            let output = cell.innerText;
+            if (!output) return '';
+            return output.trim();
+        }
+
+        function download(data, filename) {
+            let blob = new Blob([data], {type: "text/csv"});
+            let a = document.createElement('a');
+            a.setAttribute("href", window.URL.createObjectURL(blob));
+            a.setAttribute("download", filename);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     }
+}
 
-    function formatData(cell) {
-        let output = cell.innerText;
-        if (!output) return '';
-        return output.trim();
+class Dataset {
+    constructor(name, datapoints, numImages, imgDir, img, w, h) {
+        this.name = name;
+        this.datapoints = datapoints;
+        this.numImages = numImages;
+        this.imageDir = imgDir
+        this.image = img
+        this.imgWidth = w;
+        this.imgHeight = h;
+        this.hasSub = true;
     }
+    getNumberOfImages(sub) { return this.numImages[sub]; }
+}
 
-    function download(data, filename) {
-        let blob = new Blob([data], {type: "text/csv"});
-        let a = document.createElement('a');
-        a.setAttribute("href", window.URL.createObjectURL(blob));
-        a.setAttribute("download", filename);
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+class DatasetNoSub {
+    constructor(name, datapoints, numImages, imgDir, img, w, h) {
+        this.name = name;
+        this.datapoints = datapoints;
+        this.numImages = numImages;
+        this.imageDir = imgDir
+        this.image = img
+        this.imgWidth = w;
+        this.imgHeight = h;
+        this.hasSub = false;
     }
+    getNumberOfImages() { return this.numImages; }
 }

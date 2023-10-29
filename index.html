@@ -4,9 +4,10 @@
         <meta charset="UTF-8">
         <title>Digitizer</title>
         <link rel="stylesheet" href="styles.css">
-        <link rel="icon" type="image/png" href="./images/logo.png">
+        <link rel="icon" type="image/png" href="./images/favicon32.png">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <script src="./js/data.js"></script>
+        <script src="./js/digitizer.js"></script>
         <script src="./js/scripts.js"></script>
     </head>
     <body onload="startup()">
@@ -33,7 +34,7 @@
                                 <div class="subMenuContainer">
                                     <ul id="categoryOptions" class="subMenu">
                                         <li>
-                                            <div class="subMenuItem" value="" onclick="categorySelect(this)">START</div>
+                                            <div class="subMenuItem" data-value="" onclick="selectCategory(this)">START</div>
                                         </li>
                                     </ul>
                                 </div>
@@ -45,10 +46,10 @@
                                 <div id="subCategoryMenu" class="subMenuContainer">
                                     <ul id="subCategoryOptions" class="subMenu">
                                         <li>
-                                            <div class="subMenuItem" value="0" onclick="subCategorySelect(this)">MAXI</div>
+                                            <div id="select_subcategory_maxi" class="subMenuItem" data-value="" onclick="selectSubCategory(this)">MAXI</div>
                                         </li>
                                         <li>
-                                            <div class="subMenuItem" value="1" onclick="subCategorySelect(this)">MINI</div>
+                                            <div id="select_subcategory_mini" class="subMenuItem" data-value="" onclick="selectSubCategory(this)">MINI</div>
                                         </li>
                                     </ul>
                                 </div>
@@ -57,98 +58,116 @@
                     </ul>
                 </div>
             </div>
-        </div>
-        <div id="content" class="columnContainer loading">
-            <div class="columnLeft">
-                <div class="imageContainer">
-                    <img id="img" src="" alt="Something went wrong!" onerror="" width="500" height="500">
-                </div>
-                <div class="imageControls">
-                    <a class="button" href="javascript:prevImage()"><i class="fas fa-angle-left"></i> PREV</a>
-                    <span class="currentImageSummary">
-                        <span id="currentImage">1</span> of <span id="totalImages">1</span>
-                    </span>
-                    <a class="button" href="javascript:nextImage()">NEXT <i class="fas fa-angle-right"></i></a>
-                </div>
+
+            <div class="toggleContainer">
+                <span class="toggleLabel">Guided Marking</span>
+                <label class="switch">
+                    <input type="checkbox" checked="checked" onchange="toggleGuidedMode()">
+                    <span class="slider round"></span>
+                </label>
             </div>
-            <div class="columnRight">
-                <div class="tableActions">
-                    <div class="prompt">
-                        <div class="clickCoordinatesContainer">
-                            <i class="fas fa-crosshairs"></i>
-                            <span id="clickCoordinates"></span>
+        </div>
+        <div id="content" class="loading">
+            <div class="columnContainer">
+                <div class="columnLeft">
+                    <div class="imageContainer">
+                        <div class="imageWrapper">
+                            <img id="dataset_image" src="" alt="Something went wrong!" onerror="this.src='./images/image_not_found.png';" width="500" height="500">
                         </div>
-                        <span id="promptContent">prompt</span>
+                        <div class="imageControls">
+                            <button onclick="prevImage()" title="Go to previous frame"><i class="fas fa-angle-left"></i></button>
+                            <span class="currentImageSummary">
+                                <span id="currentImage">1</span> of <span id="totalImages">1</span>
+                            </span>
+                            <button onclick="nextImage()" title="Go to next frame"><i class="fas fa-angle-right"></i></button>
+                        </div>
                     </div>
-                    <button onclick="generateCSV()">Download CSV <i class="fas fa-download"></i></button>
                 </div>
-                <div class="tableContainer">
-                    <table id="dataTable">
-                        <thead>
-                            <tr>
-                                <td rowspan="2">H1</td>
-                                <td colspan="2">H2</td>
-                                <td colspan="2">H2</td>
-                                <td colspan="2">H2</td>
-                                <td colspan="2">H2</td>
-                                <td colspan="2">H2</td>
-                            </tr>
-                            <tr>
-                                <td>X</td>
-                                <td>Y</td>
-                                <td>X</td>
-                                <td>Y</td>
-                                <td>X</td>
-                                <td>Y</td>
-                                <td>X</td>
-                                <td>Y</td>
-                                <td>X</td>
-                                <td>Y</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="current">
-                                <td>V1</td>
-                                <td>V2</td>
-                                <td>V3</td>
-                                <td>V4</td>
-                                <td>V5</td>
-                                <td>V6</td>
-                                <td>V7</td>
-                                <td>V8</td>
-                                <td>V9</td>
-                                <td>V10</td>
-                                <td>V11</td>
-                            </tr>
-                            <tr>
-                                <td>V1</td>
-                                <td>V2</td>
-                                <td>V3</td>
-                                <td>V4</td>
-                                <td>V5</td>
-                                <td>V6</td>
-                                <td>V7</td>
-                                <td>V8</td>
-                                <td>V9</td>
-                                <td>V10</td>
-                                <td>V11</td>
-                            </tr>
-                            <tr>
-                                <td>V1</td>
-                                <td>V2</td>
-                                <td>V3</td>
-                                <td>V4</td>
-                                <td>V5</td>
-                                <td>V6</td>
-                                <td>V7</td>
-                                <td>V8</td>
-                                <td>V9</td>
-                                <td>V10</td>
-                                <td>V11</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="columnRight">
+                    <div class="tableActions">
+                        <div>
+                            <div class="prompt">
+                                <span id="promptContent">prompt</span>
+                            </div>
+                        </div>
+    
+                        <div>
+                            <div class="clickCoordinatesContainer" title="Coordinates from last click">
+                                <i class="fas fa-crosshairs"></i>
+                                <span id="clickCoordinates"></span>
+                            </div>
+                            <button onclick="generateCSV()" title="Download CSV">Download CSV <i class="fas fa-download"></i></button>    
+                        </div>
+                    </div>
+                    <div class="tableContainer">
+                        <table id="dataTable">
+                            <thead>
+                                <tr>
+                                    <td rowspan="2">H1</td>
+                                    <td colspan="2">H2</td>
+                                    <td colspan="2">H2</td>
+                                    <td colspan="2">H2</td>
+                                    <td colspan="2">H2</td>
+                                    <td colspan="2">H2</td>
+                                </tr>
+                                <tr>
+                                    <td>X</td>
+                                    <td>Y</td>
+                                    <td>X</td>
+                                    <td>Y</td>
+                                    <td>X</td>
+                                    <td>Y</td>
+                                    <td>X</td>
+                                    <td>Y</td>
+                                    <td>X</td>
+                                    <td>Y</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="current">
+                                    <td>V1</td>
+                                    <td>V2</td>
+                                    <td>V3</td>
+                                    <td>V4</td>
+                                    <td>V5</td>
+                                    <td>V6</td>
+                                    <td>V7</td>
+                                    <td>V8</td>
+                                    <td>V9</td>
+                                    <td>V10</td>
+                                    <td>V11</td>
+                                </tr>
+                                <tr>
+                                    <td>V1</td>
+                                    <td>V2</td>
+                                    <td>V3</td>
+                                    <td>V4</td>
+                                    <td>V5</td>
+                                    <td>V6</td>
+                                    <td>V7</td>
+                                    <td>V8</td>
+                                    <td>V9</td>
+                                    <td>V10</td>
+                                    <td>V11</td>
+                                </tr>
+                                <tr>
+                                    <td>V1</td>
+                                    <td>V2</td>
+                                    <td>V3</td>
+                                    <td>V4</td>
+                                    <td>V5</td>
+                                    <td>V6</td>
+                                    <td>V7</td>
+                                    <td>V8</td>
+                                    <td>V9</td>
+                                    <td>V10</td>
+                                    <td>V11</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </div>
     </body>
