@@ -68,7 +68,7 @@ class DigitizerData {
                 [["LTOE", "Left Toe"],
                 ["LANK", "Left Ankle"],
                 ["LWGT", "Left Weight"],
-                ["LKNE", "Right Weight"],
+                ["LKNE", "Left Knee"],
                 ["RTOE", "Right Toe"],
                 ["RANK", "Right Ankle"],
                 ["RWGT", "Right Weight"],
