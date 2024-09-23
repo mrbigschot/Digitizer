@@ -341,4 +341,4 @@ function imageClicked(evt) {
     updatePrompt();
 }
 
-function generateCSV() { data.table2CSV(document.getElementById("dataTable"), getCurrentDataset()); }
+function generateCSV() { data.table2CSV(document.getElementById("dataTable"), getCurrentDataset(), getCurrentSubCategory()); }

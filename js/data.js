@@ -222,7 +222,7 @@ class DigitizerData {
         }
     }
 
-    table2CSV(table, dataset) {
+    table2CSV(table, dataset, subcategory) {
         let csvData = [];
 
         // header data
@@ -248,7 +248,9 @@ class DigitizerData {
         }
 
         let mydata = csvData.join('\n');
-        let filename = dataset.image + getSubCategory(currentSubCategory) + ".csv";
+        let filename = dataset.image;
+        if (subcategory != SUBCAT_NONE) filename += "_" + this.getSubCategoryPrefix(subcategory);
+        filename += ".csv";
         download(mydata, filename);
 
         function row2CSV(tmpRow) {
